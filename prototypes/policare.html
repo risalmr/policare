@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Nuans — RS Ibu & Anak Ananda</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,300,0,-25" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --bg:#F4F3FA; --srf:#FFFFFF; --srf2:#F9F8FD;
+  --line:#E6E4F0; --line2:#CCC9E4;
+  --t1:#16172A; --t2:#44466A; --t3:#8C8FAD;
+  --blue:#0055D4; --blue-s:#EAF1FF; --blue-m:#BACEFD;
+  --green:#006830; --green-s:#EBFAF2; --green-m:#9ADEBE;
+  --red:#B5001A; --red-s:#FFF0F2; --red-m:#FFB3BE;
+  --amber:#8F4A00; --amber-s:#FFF7EB; --amber-m:#FFD099;
+  --loy:#5236E0; --loy-s:#EFEEFF; --loy-m:#BEB3FF;
+  --r6:6px; --r8:8px; --r12:12px; --r16:16px; --r20:20px; --rf:999px;
+  --sh: 0 1px 3px rgba(22,23,42,.07), 0 4px 12px rgba(22,23,42,.04);
+  --sh2: 0 8px 24px rgba(22,23,42,.10);
+  --sb:230px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;font-size:13px;line-height:1.5;color:var(--t1);background:var(--bg);display:flex}
+button,input,textarea{font:inherit;color:inherit;outline:none}
+img{display:block;max-width:100%}
+.ic{font-family:'Material Symbols Outlined';font-style:normal;font-size:18px;line-height:1;display:inline-flex;align-items:center;color:inherit;flex-shrink:0}
+.ic.s{font-size:15px} .ic.l{font-size:22px} .ic.xl{font-size:28px}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:2px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ─── SIDEBAR ─── */
+.sb{width:var(--sb);flex-shrink:0;background:var(--srf);border-right:1px solid var(--line);display:flex;flex-direction:column;height:100vh;overflow-y:auto;overflow-x:hidden}
+.sb-logo{padding:18px 16px 12px;border-bottom:1px solid var(--line)}
+.sb-brand{display:flex;align-items:center;gap:9px}
+.sb-gem{width:30px;height:30px;background:var(--blue);border-radius:var(--r8);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-gem .ic{font-size:16px;color:#fff}
+.sb-name{font-family:'Lexend',sans-serif;font-size:16px;font-weight:600;color:var(--t1);letter-spacing:-.02em}
+.sb-pow{font-size:10px;color:var(--t3);margin-top:4px;display:flex;align-items:center;gap:3px}
+.sb-rs{margin:10px 10px 6px;padding:10px 12px;background:var(--bg);border-radius:var(--r12);border:1px solid var(--line)}
+.rs-name{font-size:12px;font-weight:600;color:var(--t1)}
+.rs-meta{font-size:11px;color:var(--t3);margin-top:1px}
+.rs-pill{display:inline-flex;align-items:center;gap:3px;margin-top:6px;padding:2px 8px;border-radius:var(--rf);background:var(--green-s);font-size:10px;font-weight:500;color:var(--green)}
+.rs-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+nav{flex:1;padding:6px 8px;display:flex;flex-direction:column;gap:1px}
+.ng{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;padding:10px 8px 3px;margin-top:2px}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--r8);font-size:12.5px;font-weight:500;color:var(--t2);border:none;background:transparent;width:100%;text-align:left;cursor:pointer;transition:background .12s,color .12s;position:relative}
+.ni:hover{background:var(--bg);color:var(--t1)}
+.ni.on{background:var(--blue-s);color:var(--blue);font-weight:600}
+.ni.on .ic{color:var(--blue)}
+.ni.loy.on{background:var(--loy-s);color:var(--loy)}
+.ni.loy.on .ic{color:var(--loy)}
+.nbadge{margin-left:auto;padding:1px 7px;border-radius:var(--rf);font-size:10px;font-weight:700;line-height:1.6}
+.nb-r{background:var(--red-s);color:var(--red)}
+.nb-a{background:var(--amber-s);color:var(--amber)}
+.nb-loy{background:var(--loy-s);color:var(--loy)}
+.nb-g{background:var(--green-s);color:var(--green)}
+.sb-foot{padding:10px 14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.user-av{width:30px;height:30px;border-radius:50%;background:var(--blue-s);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.user-name{font-size:12px;font-weight:600;color:var(--t1)}
+.user-role{font-size:10.5px;color:var(--t3)}
+
+/* ─── MAIN ─── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{height:54px;background:var(--srf);border-bottom:1px solid var(--line);padding:0 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.tb-l h1{font-family:'Lexend',sans-serif;font-size:15px;font-weight:600;color:var(--t1)}
+.tb-l p{font-size:11.5px;color:var(--t3);margin-top:1px}
+.tb-r{display:flex;align-items:center;gap:7px}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:var(--r8);border:1px solid var(--line);background:var(--srf);font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;transition:all .12s;white-space:nowrap;flex-shrink:0}
+.btn:hover{background:var(--bg);border-color:var(--line2);color:var(--t1)}
+.btn.pri{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.btn.pri:hover{background:#0066FF}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--t3)}
+.btn.ghost:hover{background:var(--bg);color:var(--t2);border-color:var(--line)}
+.btn.danger{background:var(--red-s);border-color:var(--red-m);color:var(--red);font-weight:600;animation:pulse-danger 2.5s infinite}
+@keyframes pulse-danger{0%,100%{box-shadow:0 0 0 0 rgba(181,0,26,.15)}50%{box-shadow:0 0 0 5px rgba(181,0,26,0)}}
+.btn.loy{background:var(--loy-s);border-color:var(--loy-m);color:var(--loy);font-weight:600}
+.btn.success{background:var(--green-s);border-color:var(--green-m);color:var(--green);font-weight:600}
+.btn.sm{padding:4px 10px;font-size:11.5px}
+.btn.xs{padding:3px 8px;font-size:11px}
+.btn.ico{padding:7px}
+.notif{width:34px;height:34px;border-radius:var(--r8);border:1px solid var(--line);background:var(--srf);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid var(--srf)}
+
+/* ─── CONTENT ─── */
+.content{flex:1;overflow-y:auto;padding:22px 26px}
+.screen{display:none}
+.screen.on{display:block;animation:fadeup .18s ease}
+@keyframes fadeup{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ─── PAGE HEADER ─── */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
+.ph-text h2{font-family:'Lexend',sans-serif;font-size:21px;font-weight:600;color:var(--t1);line-height:1.2}
+.ph-text p{font-size:13px;color:var(--t3);margin-top:5px;max-width:520px;line-height:1.5}
+.ph-act{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+/* ─── KPI STRIP ─── */
+.kstrip{display:grid;gap:12px;margin-bottom:20px}
+.k4{grid-template-columns:repeat(4,1fr)}
+.k3{grid-template-columns:repeat(3,1fr)}
+.k2{grid-template-columns:repeat(2,1fr)}
+.kcard{background:var(--srf);border:1px solid var(--line);border-radius:var(--r16);padding:15px 17px;box-shadow:var(--sh)}
+.kcard.kr{background:var(--red-s);border-color:var(--red-m)}
+.kcard.ka{background:var(--amber-s);border-color:var(--amber-m)}
+.kcard.kg{background:var(--green-s);border-color:var(--green-m)}
+.kcard.kl{background:var(--loy-s);border-color:var(--loy-m)}
+.kcard-ic{width:32px;height:32px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;margin-bottom:10px;background:rgba(0,0,0,.04)}
+.kcard.kr .kcard-ic{background:rgba(181,0,26,.1)}.kcard.kr .ic{color:var(--red)}
+.kcard.ka .kcard-ic{background:rgba(143,74,0,.1)}.kcard.ka .ic{color:var(--amber)}
+.kcard.kg .kcard-ic{background:rgba(0,104,48,.1)}.kcard.kg .ic{color:var(--green)}
+.kcard.kl .kcard-ic{background:rgba(82,54,224,.1)}.kcard.kl .ic{color:var(--loy)}
+.kcard-lbl{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.03em;margin-bottom:4px}
+.kcard-v{font-family:'Lexend',sans-serif;font-size:28px;font-weight:700;color:var(--t1);line-height:1}
+.kcard.kr .kcard-v{color:var(--red)}
+.kcard.ka .kcard-v{color:var(--amber)}
+.kcard.kg .kcard-v{color:var(--green)}
+.kcard.kl .kcard-v{color:var(--loy)}
+.kcard-v small{font-size:13px;font-weight:400;color:var(--t3);margin-left:2px}
+.kcard-d{font-size:11.5px;margin-top:6px;display:flex;align-items:center;gap:3px}
+.up{color:var(--green)}.dn{color:var(--red)}.fl{color:var(--t3)}
+
+/* ─── GRID ─── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:16px}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:16px}
+.g23{display:grid;grid-template-columns:2fr 3fr;gap:16px;margin-bottom:16px}
+.col{display:flex;flex-direction:column;gap:16px}
+.mb{margin-bottom:16px}
+
+/* ─── CARD ─── */
+.card{background:var(--srf);border:1px solid var(--line);border-radius:var(--r16);padding:18px 20px;box-shadow:var(--sh)}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-hd-l{flex:1;min-width:0}
+.card-title{font-family:'Lexend',sans-serif;font-size:13.5px;font-weight:600;color:var(--t1)}
+.card-sub{font-size:11.5px;color:var(--t3);margin-top:2px}
+.card-hd-r{display:flex;gap:6px;align-items:center;flex-shrink:0}
+
+/* ─── BADGES ─── */
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:2px 10px;border-radius:var(--rf);font-size:11px;font-weight:600;line-height:1.5}
+.bdg.g{background:var(--green-s);color:var(--green)}
+.bdg.r{background:var(--red-s);color:var(--red)}
+.bdg.a{background:var(--amber-s);color:var(--amber)}
+.bdg.b{background:var(--blue-s);color:var(--blue)}
+.bdg.n{background:var(--bg);color:var(--t2)}
+.bdg.loy{background:var(--loy-s);color:var(--loy)}
+.pdot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink 1.4s infinite;display:inline-block}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ─── TABS ─── */
+.tabs{display:flex;gap:2px;background:var(--bg);border-radius:var(--r8);padding:3px;margin-bottom:16px}
+.studio-panel{display:none}.studio-panel.sp-on{display:block;animation:fadeup .18s ease}
+.comm-panel{display:none}.comm-panel.cp-on{display:block;animation:fadeup .18s ease}
+.tab{padding:5px 12px;border-radius:var(--r6);font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;border:none;background:transparent;font-family:'Inter',sans-serif;transition:all .12s}
+.tab.on{background:var(--srf);color:var(--t1);box-shadow:var(--sh);font-weight:600}
+
+/* ─── FEED ITEMS ─── */
+.feed{border-radius:var(--r12);padding:13px 15px;border:1px solid;margin-bottom:10px}
+.feed:last-child{margin-bottom:0}
+.feed.k{background:var(--red-s);border-color:var(--red-m)}
+.feed.m{background:var(--amber-s);border-color:var(--amber-m)}
+.feed.p{background:var(--green-s);border-color:var(--green-m)}
+.feed.i{background:var(--blue-s);border-color:var(--blue-m)}
+.f-hd{display:flex;align-items:center;gap:7px;margin-bottom:6px;flex-wrap:wrap}
+.f-name{font-size:12.5px;font-weight:700;color:var(--t1)}
+.f-src{font-size:11px;color:var(--t3);margin-left:auto;white-space:nowrap}
+.f-body{font-size:12.5px;color:var(--t2);line-height:1.55;margin-bottom:8px}
+.f-act{display:flex;gap:6px;flex-wrap:wrap}
+.fbtn{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:var(--rf);border:1.5px solid;cursor:pointer;background:transparent}
+.feed.k .fbtn{border-color:var(--red);color:var(--red)}
+.feed.m .fbtn{border-color:var(--amber);color:var(--amber)}
+.feed.p .fbtn{border-color:var(--green);color:var(--green)}
+.feed.i .fbtn{border-color:var(--blue);color:var(--blue)}
+
+/* ─── ALERT BOX ─── */
+.ab{border-radius:var(--r12);padding:12px 14px;border:1px solid;margin-bottom:10px}
+.ab:last-child{margin-bottom:0}
+.ab.k{background:var(--red-s);border-color:var(--red-m)}
+.ab.m{background:var(--amber-s);border-color:var(--amber-m)}
+.ab.b{background:var(--blue-s);border-color:var(--blue-m)}
+.ab.g{background:var(--green-s);border-color:var(--green-m)}
+.ab.loy{background:var(--loy-s);border-color:var(--loy-m)}
+.ab-hd{font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.ab.k .ab-hd{color:var(--red)}.ab.m .ab-hd{color:var(--amber)}.ab.b .ab-hd{color:var(--blue)}.ab.g .ab-hd{color:var(--green)}.ab.loy .ab-hd{color:var(--loy)}
+.ab-body{font-size:12.5px;color:var(--t2);line-height:1.55}
+
+/* ─── TABLE ─── */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:11px;font-weight:600;color:var(--t3);text-align:left;padding:7px 10px;border-bottom:2px solid var(--line)}
+.tbl td{padding:10px;border-bottom:1px solid var(--srf2);font-size:12.5px;color:var(--t2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--srf2)}
+.td1{font-weight:600;color:var(--t1)} .td2{font-size:11px;color:var(--t3);margin-top:1px}
+
+/* ─── PROGRESS ─── */
+.bar{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.bar.sm{height:4px} .bar.lg{height:7px}
+.bf{height:100%;border-radius:3px}
+.bfg{background:var(--green)}.bfb{background:var(--blue)}.bfr{background:var(--red)}.bfa{background:var(--amber)}.bfl{background:var(--loy)}.bfn{background:var(--line2)}
+
+/* ─── SENTIMENT ─── */
+.sbar{height:8px;border-radius:4px;overflow:hidden;display:flex;margin:6px 0}
+.sg{background:var(--green)}.sn{background:var(--line2)}.sr{background:var(--red)}
+.sleg{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.sl-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)}
+.sl-dot{width:7px;height:7px;border-radius:50%}
+
+/* ─── FEEDBACK ROW ─── */
+.fbrow{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--srf2)}
+.fbrow:last-child{border-bottom:none;padding-bottom:0}
+.fbav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.fb-name{font-size:12.5px;font-weight:600;color:var(--t1)}
+.fb-stars{font-size:12px;color:#C47D00}
+.fb-text{font-size:12px;color:var(--t2);line-height:1.5;margin-top:3px}
+.fb-chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.fb-time{font-size:10.5px;color:var(--t3);margin-top:3px}
+.chip{display:inline-flex;padding:2px 8px;border-radius:var(--rf);font-size:11px;font-weight:500}
+.chip.p{background:rgba(0,104,48,.1);color:var(--green)}
+.chip.n{background:rgba(181,0,26,.1);color:var(--red)}
+.chip.loy{background:var(--loy-s);color:var(--loy)}
+
+/* ─── RISK ROW ─── */
+.riskrow{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r12);border:1px solid var(--line);background:var(--srf);margin-bottom:8px}
+.riskrow:last-child{margin-bottom:0}
+.riskrow.hi{border-left:3px solid var(--red)}
+.riskrow.md{border-left:3px solid var(--amber)}
+.riskrow.lo{border-left:3px solid var(--green)}
+.risk-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.risk-pct{font-family:'Lexend',sans-serif;font-size:17px;font-weight:700;text-align:right;flex-shrink:0}
+.riskrow.hi .risk-pct{color:var(--red)}
+.riskrow.md .risk-pct{color:var(--amber)}
+.riskrow.lo .risk-pct{color:var(--green)}
+
+/* ─── JOURNEY ─── */
+.journey{display:flex;align-items:center;margin:6px 0 14px}
+.jst{display:flex;flex-direction:column;align-items:center;flex:1}
+.jdot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;margin-bottom:4px;flex-shrink:0}
+.jdot.done{background:var(--blue);color:#fff}
+.jdot.warn{background:var(--red-s);border:2px solid var(--red);color:var(--red)}
+.jdot.next{background:var(--blue-s);border:2px solid var(--blue);color:var(--blue)}
+.jdot.pend{background:var(--srf2);color:var(--t3)}
+.jlbl{font-size:9.5px;color:var(--t3);text-align:center;line-height:1.3}
+.jlbl.a{color:var(--blue);font-weight:600} .jlbl.w{color:var(--red);font-weight:600}
+.jline{flex:1;height:1.5px;margin-bottom:16px}
+.jline.d{background:var(--blue)} .jline.p{background:var(--srf2)}
+
+/* ─── PROGRAM DELIVERY LANE ─── */
+.lane{border-radius:var(--r16);border:1px solid var(--line);overflow:hidden;margin-bottom:10px;background:var(--srf)}
+.lane:last-child{margin-bottom:0}
+.lane-hd{padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.lane-hd:hover{background:var(--srf2)}
+.lane-color{width:4px;border-radius:4px;flex-shrink:0;align-self:stretch}
+.lane-ic{width:36px;height:36px;border-radius:var(--r12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lane-title{font-size:13.5px;font-weight:600;color:var(--t1)}
+.lane-desc{font-size:12px;color:var(--t3);margin-top:2px}
+.lane-badge{margin-left:auto;flex-shrink:0}
+.lane-toggle{margin-left:8px;color:var(--t3);transition:transform .2s;flex-shrink:0}
+.lane.open .lane-toggle{transform:rotate(180deg)}
+.lane-body{padding:14px 16px;border-top:1px solid var(--line);display:none}
+.lane.open .lane-body{display:block}
+.step-flow{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:4px}
+.step{display:flex;flex-direction:column;align-items:center;min-width:80px;max-width:100px;flex:1}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-bottom:5px}
+.step-lbl{font-size:11px;color:var(--t2);text-align:center;line-height:1.3;font-weight:500}
+.step-sub{font-size:10px;color:var(--t3);text-align:center;margin-top:2px;line-height:1.3}
+.step-arrow{align-self:center;color:var(--line2);margin-bottom:20px;font-size:16px;flex-shrink:0;padding:0 4px}
+
+/* ─── TIER CARD ─── */
+.tier-card{background:var(--srf);border:1px solid var(--line);border-radius:var(--r16);padding:16px 14px;text-align:center;cursor:pointer;transition:all .15s}
+.tier-card:hover{border-color:var(--loy-m);background:var(--loy-s)}
+.tier-card.sel{border-color:var(--loy-m);background:var(--loy-s);box-shadow:var(--sh2)}
+.tier-ring-wrap{position:relative;width:64px;height:64px;margin:0 auto 10px}
+.tier-ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.tier-ring-n{font-family:'Lexend',sans-serif;font-size:17px;font-weight:700;color:var(--t1);line-height:1}
+.tier-ring-l{font-size:9.5px;color:var(--t3);margin-top:1px}
+.tier-name{font-size:12.5px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.tier-pct{font-size:11.5px;color:var(--t3)}
+.tier-trend{font-size:11px;color:var(--green);font-weight:500;margin-top:4px}
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+
+/* ─── PATIENT CARD ─── */
+.pat-card{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--r12);border:1px solid var(--line);background:var(--srf);cursor:pointer;transition:border-color .15s;margin-bottom:8px}
+.pat-card:last-child{margin-bottom:0}
+.pat-card:hover{border-color:var(--loy-m)}
+.pat-card.sel{border-color:var(--loy-m);background:var(--loy-s)}
+.pat-card.risk{border-color:var(--red-m);background:var(--red-s)}
+.pat-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.pat-pts{font-family:'Lexend',sans-serif;font-size:15px;font-weight:700;color:var(--loy)}
+.pat-pts-sub{font-size:10.5px;color:var(--t3);margin-top:1px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--t3);margin-bottom:3px}
+
+/* ─── TIER PILLS ─── */
+.tier{display:inline-flex;align-items:center;padding:2px 8px;border-radius:var(--rf);font-size:11px;font-weight:600}
+.tier.basic{background:var(--bg);color:var(--t2)}
+.tier.silver{background:#DDF0FC;color:#0369A1}
+.tier.gold{background:#FEF3C7;color:#92400E}
+.tier.platina{background:var(--loy-s);color:var(--loy)}
+
+/* ─── NPS RING ─── */
+.nps-ring{width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--green) 0% 72%,var(--srf2) 72% 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nps-inner{width:60px;height:60px;border-radius:50%;background:var(--srf);display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+/* ─── AI CHAT STRIP ─── */
+.ai-strip{background:linear-gradient(135deg,#1a1060 0%,#2d1b8a 50%,#0f3d6e 100%);border-radius:var(--r16);padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.ai-strip-av{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ai-strip-text{flex:1;color:#fff}
+.ai-strip-text strong{font-size:13.5px;font-weight:600;display:block;margin-bottom:3px}
+.ai-strip-text span{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
+.ai-strip-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+
+/* ─── AI SUGGESTION ─── */
+.ai-sug{background:rgba(0,85,212,.04);border:1px solid var(--blue-m);border-radius:var(--r8);padding:9px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.ai-sug .ic{color:var(--blue);flex-shrink:0;margin-top:1px}
+.ai-sug p{font-size:12px;color:var(--t2);line-height:1.5;font-style:italic}
+
+/* ─── SOP ROW ─── */
+.sop-row{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--srf2)}
+.sop-row:last-child{border-bottom:none}
+.sop-ic{width:34px;height:34px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sop-title{font-size:12.5px;font-weight:600;color:var(--t1)}
+.sop-meta{font-size:11px;color:var(--t3);margin-top:1px}
+.sop-act{margin-left:auto;display:flex;gap:5px}
+
+/* ─── INLINE ACTION ─── */
+.ia{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:var(--r12);border:1px solid var(--line);background:var(--srf);margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.ia:last-child{margin-bottom:0}
+.ia:hover{border-color:var(--blue)}
+.ia-ic{width:30px;height:30px;border-radius:var(--r8);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ia-title{font-size:12.5px;font-weight:600;color:var(--t1)}
+.ia-sub{font-size:11px;color:var(--t3);margin-top:1px}
+
+/* ─── MISC ─── */
+.inp{width:100%;padding:8px 12px;font-size:13px;border:1px solid var(--line);border-radius:var(--r8);background:var(--srf);color:var(--t1)}
+.inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,85,212,.1)}
+.mp{background:var(--srf2);border-radius:var(--r12);padding:12px 14px;border:1px solid var(--line)}
+.mp .v{font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--t1);line-height:1}
+.mp .l{font-size:11.5px;color:var(--t3);margin-top:3px}
+hr.div{border:none;border-top:1px solid var(--line);margin:14px 0}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:11.5px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.05em}
+.sec-link{font-size:12px;color:var(--blue);cursor:pointer}
+.feedbox{max-height:420px;overflow-y:auto;padding-right:2px}
+</style>
+</head>
+<body>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<aside class="sb">
+  <div class="sb-logo">
+    <div class="sb-brand">
+      <div class="sb-gem"><span class="ic">hub</span></div>
+      <span class="sb-name">Nuans</span>
+    </div>
+    <div class="sb-pow"><span class="ic s">bolt</span>powered by Sinteta</div>
+  </div>
+
+  <div class="sb-rs">
+    <div class="rs-name">RS Ibu &amp; Anak Ananda</div>
+    <div class="rs-meta">Makassar · Aktif Jan 2026</div>
+    <div class="rs-pill"><span class="rs-pill-dot"></span>SIMRS Sync: Aktif</div>
+  </div>
+
+  <nav>
+    <!-- ── Patient Voice Management ── -->
+    <div class="ng">Patient Voice</div>
+    <button class="ni on" onclick="go(this,'radar')">
+      <span class="ic">radar</span>Radar Layanan
+      <span class="nbadge nb-r">3</span>
+    </button>
+    <button class="ni" onclick="go(this,'crisis')">
+      <span class="ic">emergency</span>Crisis Management
+      <span class="nbadge nb-r">1</span>
+    </button>
+    <button class="ni" onclick="go(this,'survey')">
+      <span class="ic">star_half</span>Survey Kepuasan
+    </button>
+
+    <!-- ── Retention & Relationship ── -->
+    <div class="ng">Retention &amp; Relationship</div>
+    <button class="ni loy" onclick="go(this,'studio')">
+      <span class="ic">auto_awesome</span>Studio Program
+      <span class="nbadge nb-loy">AI</span>
+    </button>
+    <button class="ni" onclick="go(this,'delivery')">
+      <span class="ic">route</span>Program Delivery
+    </button>
+    <button class="ni" onclick="go(this,'community')">
+      <span class="ic">groups</span>Komunitas
+    </button>
+
+    <!-- ── Business Insights ── -->
+    <div class="ng">Business Insights</div>
+    <button class="ni" onclick="go(this,'market')">
+      <span class="ic">insights</span>Intelijen Pasar
+    </button>
+    <button class="ni" onclick="go(this,'promotion')">
+      <span class="ic">campaign</span>Promosi &amp; Edukasi
+    </button>
+
+    <!-- ── Operational ── -->
+    <div class="ng">Operational</div>
+    <button class="ni" onclick="go(this,'performance')">
+      <span class="ic">analytics</span>Service Performance
+    </button>
+    <button class="ni" onclick="go(this,'finance')">
+      <span class="ic">payments</span>Finance &amp; Revenue
+    </button>
+    <button class="ni" onclick="go(this,'sop')">
+      <span class="ic">fact_check</span>SOP &amp; Update
+    </button>
+    <button class="ni" onclick="go(this,'voice')">
+      <span class="ic">record_voice_over</span>Internal Voice
+    </button>
+    <button class="ni" onclick="go(this,'kudos')">
+      <span class="ic">military_tech</span>Kudos
+    </button>
+  </nav>
+
+  <div class="sb-foot">
+    <div class="user-av">DR</div>
+    <div>
+      <div class="user-name">dr. Ratna Kusuma</div>
+      <div class="user-role">Direktur · Super Admin</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l">
+      <h1 id="tb-h">Radar Layanan</h1>
+      <p id="tb-s">Monitor semua sinyal pasien secara real-time dari berbagai channel</p>
+    </div>
+    <div class="tb-r">
+      <button class="btn danger"><span class="ic s">add_alert</span>Respon Krisis</button>
+      <button class="btn ghost"><span class="ic s">file_download</span>Export</button>
+      <div class="notif"><span class="ic">notifications</span><span class="notif-dot"></span></div>
+      <span style="font-size:11.5px;color:var(--t3);padding:0 4px">17 Mei 2026</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══════════════════════════════════════
+         1. RADAR LAYANAN
+    ══════════════════════════════════════ -->
+    <div class="screen on" id="s-radar">
+      <!-- KPIs -->
+      <div class="kstrip k4">
+        <div class="kcard kr">
+          <div class="kcard-ic"><span class="ic">emergency</span></div>
+          <div class="kcard-lbl">Keluhan Kritis</div>
+          <div class="kcard-v">3</div>
+          <div class="kcard-d dn"><span class="ic s">arrow_upward</span>+2 vs kemarin</div>
+        </div>
+        <div class="kcard">
+          <div class="kcard-ic"><span class="ic">reviews</span></div>
+          <div class="kcard-lbl">Feedback Hari Ini</div>
+          <div class="kcard-v">128</div>
+          <div class="kcard-d up"><span class="ic s">trending_up</span>+12% vs kemarin</div>
+        </div>
+        <div class="kcard">
+          <div class="kcard-ic"><span class="ic">timer</span></div>
+          <div class="kcard-lbl">Avg. Response Time</div>
+          <div class="kcard-v">2.4<small>j</small></div>
+          <div class="kcard-d up"><span class="ic s">check_circle</span>Within gold standard</div>
+        </div>
+        <div class="kcard kg">
+          <div class="kcard-ic"><span class="ic">task_alt</span></div>
+          <div class="kcard-lbl">Resolution Rate</div>
+          <div class="kcard-v">87<small>%</small></div>
+          <div class="kcard-d fl"><span class="ic s">remove</span>Stabil vs minggu lalu</div>
+        </div>
+      </div>
+
+      <div class="g21">
+        <!-- LIVE FEED -->
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-hd-l">
+              <div class="card-title">Live Feed — Sinyal Pasien</div>
+              <div class="card-sub">Semua channel · real-time</div>
+            </div>
+            <div class="card-hd-r">
+              <span class="bdg g"><span class="pdot"></span>Live</span>
+              <button class="btn ghost sm"><span class="ic s">filter_list</span>Filter</button>
+            </div>
+          </div>
+          <div class="tabs">
+            <button class="tab on" onclick="ts(this)">Semua</button>
+            <button class="tab" onclick="ts(this)">Kritis</button>
+            <button class="tab" onclick="ts(this)">Nuans App</button>
+            <button class="tab" onclick="ts(this)">Google</button>
+            <button class="tab" onclick="ts(this)">WA Center</button>
+            <button class="tab" onclick="ts(this)">Social Media</button>
+          </div>
+          <div class="feedbox">
+            <div class="feed k">
+              <div class="f-hd">
+                <span class="bdg r"><span class="pdot"></span>Kritis</span>
+                <span class="f-name">Adinda Rahmawati</span>
+                <span style="font-size:11px;background:rgba(255,255,255,.8);padding:1px 8px;border-radius:var(--rf);color:var(--t3)">PAS-9921 · VIP 3A</span>
+                <span class="f-src">WA · 10 mnt lalu</span>
+              </div>
+              <div class="f-body">"Sudah 2 jam menunggu di UGD, belum ada dokter yang visit. Anak saya demam tinggi. Sangat mengecewakan."</div>
+              <div class="ai-sug" style="margin-bottom:8px">
+                <span class="ic s">smart_toy</span>
+                <p>"Mohon maaf atas ketidaknyamanan. Tim kami menangani lonjakan dan segera ke lokasi Bapak/Ibu dalam 10 menit..."</p>
+              </div>
+              <div class="f-act">
+                <button class="fbtn">Respon Cepat</button>
+                <button class="fbtn">Eskalasi Dept.</button>
+                <button class="fbtn">Tandai Selesai</button>
+              </div>
+            </div>
+            <div class="feed m">
+              <div class="f-hd"><span class="bdg a">Medium</span><span class="f-name">Budi Santoso</span><span class="f-src">Google · 52 mnt lalu</span></div>
+              <div class="f-body">"Dokternya baik tapi resep salah diberikan di farmasi. Untung saya cek sebelum diminum."</div>
+              <div class="f-act"><button class="fbtn">Tindak Lanjuti</button><button class="fbtn">Balas Review</button><button class="fbtn">→ Farmasi</button></div>
+            </div>
+            <div class="feed p">
+              <div class="f-hd">
+                <span class="bdg g">Positif</span>
+                <span class="f-name">Maya Lestari</span>
+                <span class="chip loy" style="font-size:10.5px">Nuans Gold</span>
+                <span class="f-src">Nuans · 1j lalu</span>
+              </div>
+              <div class="f-body">"ANC ketiga sangat lancar. Dr. Rina sangat sabar menjelaskan kondisi kehamilan saya. Terima kasih! ⭐⭐⭐⭐⭐"</div>
+              <div class="f-act"><button class="fbtn">Apresiasi &amp; Balas</button><button class="fbtn">Share ke Tim</button></div>
+            </div>
+            <div class="feed m">
+              <div class="f-hd"><span class="bdg a">Medium</span><span class="f-name">Sari Wulandari</span><span class="f-src">Nuans · 2j lalu</span></div>
+              <div class="f-body">"Parkir penuh, harus putar 3x. Tolong ada petunjuk yang lebih jelas."</div>
+              <div class="f-act"><button class="fbtn">→ Operasional</button><button class="fbtn">Balas Pasien</button></div>
+            </div>
+            <div class="feed i">
+              <div class="f-hd"><span class="bdg b">Info</span><span class="f-name">@budimakassar</span><span class="f-src">Twitter/X · 3j lalu</span></div>
+              <div class="f-body">"Antri 2 jam di RS Ananda tapi akhirnya ditangani dengan baik. Overall puas sih, cuma antriannya aja yang perlu dibenahi."</div>
+              <div class="f-act"><button class="fbtn">Monitor</button><button class="fbtn">Balas</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COL -->
+        <div class="col">
+          <!-- SENTIMEN -->
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-hd-l"><div class="card-title">Sentimen Publik</div></div>
+              <div class="tabs" style="margin-bottom:0">
+                <button class="tab on" onclick="ts(this)" style="font-size:11px;padding:4px 8px">7 Hari</button>
+                <button class="tab" onclick="ts(this)" style="font-size:11px;padding:4px 8px">30 Hari</button>
+              </div>
+            </div>
+            <div style="font-family:'Lexend',sans-serif;font-size:24px;font-weight:700;color:var(--t1);margin-bottom:5px">78<small style="font-size:12px;font-weight:400;color:var(--t3)">% Index</small></div>
+            <div class="sbar"><div class="sg" style="width:65%"></div><div class="sn" style="width:20%"></div><div class="sr" style="width:15%"></div></div>
+            <div class="sleg">
+              <div class="sl-item"><div class="sl-dot" style="background:var(--green)"></div>65% Positif</div>
+              <div class="sl-item"><div class="sl-dot" style="background:var(--line2)"></div>20% Netral</div>
+              <div class="sl-item"><div class="sl-dot" style="background:var(--red)"></div>15% Negatif</div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;color:var(--green);margin-bottom:5px;display:flex;align-items:center;gap:3px"><span class="ic s">thumb_up</span>Positif</div>
+                <div style="font-size:12px;color:var(--t2);line-height:2">• Keramahan perawat<br>• Kebersihan lobi<br>• Kecepatan UGD</div>
+              </div>
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:5px;display:flex;align-items:center;gap:3px"><span class="ic s">thumb_down</span>Negatif</div>
+                <div style="font-size:12px;color:var(--t2);line-height:2">• Waktu tunggu farmasi<br>• Parkir &amp; akses<br>• Info antrean UGD</div>
+              </div>
+            </div>
+            <hr class="div"/>
+            <div style="font-size:11.5px;font-weight:600;color:var(--t3);margin-bottom:7px">Topik Tren</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="background:#FFF7ED;border:1px solid #FED7AA;color:#C2410C;padding:3px 9px;border-radius:var(--rf);font-size:11.5px;font-weight:600">🔥 #AntreanUGD</span>
+              <span style="background:var(--srf2);border:1px solid var(--line);color:var(--t2);padding:3px 9px;border-radius:var(--rf);font-size:11.5px">#PerawatRamah</span>
+              <span style="background:#FFF7ED;border:1px solid #FED7AA;color:#C2410C;padding:3px 9px;border-radius:var(--rf);font-size:11.5px;font-weight:600">🔥 #FarmasiLambat</span>
+              <span style="background:var(--srf2);border:1px solid var(--line);color:var(--t2);padding:3px 9px;border-radius:var(--rf);font-size:11.5px">#ParkirPenuh</span>
+            </div>
+          </div>
+
+          <!-- AI REKOMENDASI -->
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Rekomendasi AI</div></div>
+              <span class="bdg b">Prioritas hari ini</span>
+            </div>
+            <div class="ab k"><div class="ab-hd"><span class="ic s">groups</span>Optimasi Staf Farmasi — Segera</div><div class="ab-body">+2 asisten apoteker jam 10–14. Antrean turun 28→12 menit.</div></div>
+            <div class="ab m"><div class="ab-hd"><span class="ic s">local_parking</span>Update Parkir Real-time</div><div class="ab-body">Integrasi sensor parkir ke Nuans App untuk pasien.</div></div>
+            <div class="ab b"><div class="ab-hd"><span class="ic s">fact_check</span>Audit Bel Panggil Perawat</div><div class="ab-body">Target &lt;5 mnt belum terpenuhi di Bangsal B &amp; C.</div></div>
+          </div>
+
+          <!-- TUGAS AKTIF -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Tugas Aktif</div></div><span class="bdg r">2 Urgent</span></div>
+            <div class="ia"><div class="ia-ic" style="background:var(--red-s)"><span class="ic s" style="color:var(--red)">gavel</span></div><div style="flex:1"><div class="ia-title">Persiapan Akreditasi JCI</div><div class="ia-sub">Deadline 26 Mei</div></div><span class="bdg r">Urgent</span></div>
+            <div class="ia"><div class="ia-ic" style="background:var(--blue-s)"><span class="ic s" style="color:var(--blue)">description</span></div><div style="flex:1"><div class="ia-title">Pembaruan SOP Farmasi</div><div class="ia-sub">Deadline 29 Mei</div></div><span class="bdg b">In Progress</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         2. CRISIS MANAGEMENT
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-crisis">
+      <div class="ph">
+        <div class="ph-text"><h2>Crisis Management</h2><p>Tangani, eskalasi, dan selesaikan keluhan kritis dengan cepat dan terstruktur.</p></div>
+        <div class="ph-act"><button class="btn danger"><span class="ic s">add_alert</span>Buka Krisis Baru</button></div>
+      </div>
+      <div class="kstrip k4">
+        <div class="kcard kr"><div class="kcard-ic"><span class="ic">emergency</span></div><div class="kcard-lbl">Krisis Aktif</div><div class="kcard-v">1</div><div class="kcard-d dn">Butuh tindakan segera</div></div>
+        <div class="kcard ka"><div class="kcard-ic"><span class="ic">pending</span></div><div class="kcard-lbl">Dalam Penanganan</div><div class="kcard-v">4</div><div class="kcard-d fl">Rata-rata 1.8j penanganan</div></div>
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">check_circle</span></div><div class="kcard-lbl">Selesai Bulan Ini</div><div class="kcard-v">28</div><div class="kcard-d up"><span class="ic s">trending_up</span>Resolusi 94%</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">speed</span></div><div class="kcard-lbl">Avg. Resolve Time</div><div class="kcard-v">2.1<small>j</small></div><div class="kcard-d up">-0.4j vs bulan lalu</div></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Krisis Aktif — Perlu Tindakan</div></div><span class="bdg r"><span class="pdot"></span>1 Open</span></div>
+          <div class="feed k">
+            <div class="f-hd"><span class="bdg r"><span class="pdot"></span>Kritis</span><span class="f-name">Adinda Rahmawati</span><span style="font-size:11px;background:rgba(255,255,255,.8);padding:1px 8px;border-radius:var(--rf);color:var(--t3)">UGD · VIP 3A</span><span class="f-src">Dibuka 09:04</span></div>
+            <div class="f-body">"Sudah 2 jam menunggu di UGD, belum ada dokter yang visit. Anak saya demam tinggi."</div>
+            <!-- Flow steps -->
+            <div style="display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--rf);background:var(--green-s);border:1px solid var(--green-m);font-size:11px;color:var(--green);font-weight:600"><span class="ic s">check</span>Terima</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--rf);background:var(--green-s);border:1px solid var(--green-m);font-size:11px;color:var(--green);font-weight:600"><span class="ic s">check</span>Analisis</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--rf);background:var(--blue-s);border:1px solid var(--blue-m);font-size:11px;color:var(--blue);font-weight:700"><span class="ic s">pending</span>Eskalasi</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--rf);background:var(--srf2);border:1px solid var(--line);font-size:11px;color:var(--t3)">Lakukan Treat</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--rf);background:var(--srf2);border:1px solid var(--line);font-size:11px;color:var(--t3)">Pantau</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--rf);background:var(--srf2);border:1px solid var(--line);font-size:11px;color:var(--t3)">Buat Report</div>
+            </div>
+            <div class="f-act" style="margin-top:4px">
+              <button class="fbtn">Eskalasi ke Direktur</button>
+              <button class="fbtn">Kontak Tim UGD</button>
+              <button class="fbtn">Kirim Kompensasi</button>
+            </div>
+          </div>
+          <hr class="div" style="margin-top:14px"/>
+          <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title">Dalam Penanganan</div></div></div>
+          <table class="tbl">
+            <thead><tr><th>Pasien</th><th>Isu</th><th>Channel</th><th>Durasi</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><div class="td1">Bambang S.</div><div class="td2">PAS-4890</div></td><td>Keluhan resep farmasi</td><td>Google Review</td><td>2j 15mnt</td><td><span class="bdg a">Dalam Proses</span></td></tr>
+              <tr><td><div class="td1">Rini Laila</div><div class="td2">PAS-4871</div></td><td>Tagihan tidak sesuai</td><td>WA</td><td>4j 02mnt</td><td><span class="bdg a">Eskalasi</span></td></tr>
+              <tr><td><div class="td1">Hartono K.</div><div class="td2">PAS-4855</div></td><td>Fasilitas kamar rusak</td><td>Nuans App</td><td>6j 45mnt</td><td><span class="bdg b">Dijadwalkan</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Pola Krisis — 30 Hari</div></div></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Antrean &amp; waktu tunggu</span><span style="font-weight:600;color:var(--red)">38%</span></div><div class="bar"><div class="bf bfr" style="width:38%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Farmasi &amp; obat</span><span style="font-weight:600;color:var(--amber)">22%</span></div><div class="bar"><div class="bf bfa" style="width:22%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Fasilitas &amp; kebersihan</span><span style="font-weight:600;color:var(--amber)">18%</span></div><div class="bar"><div class="bf bfa" style="width:18%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Tagihan &amp; administrasi</span><span style="font-weight:600;color:var(--blue)">14%</span></div><div class="bar"><div class="bf bfb" style="width:14%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Lainnya</span><span style="font-weight:600;color:var(--t3)">8%</span></div><div class="bar"><div class="bf bfn" style="width:8%"></div></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Loop ke Studio Program</div></div></div>
+            <div class="ab loy"><div class="ab-hd">Sinteta mendeteksi pola</div><div class="ab-body">3 keluhan antrean UGD minggu ini kemungkinan memengaruhi dropout pasien. Mau Sinteta buat win-back campaign otomatis?</div></div>
+            <div style="display:flex;gap:7px;margin-top:10px">
+              <button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">auto_awesome</span>Ya, buat campaign</button>
+              <button class="btn ghost">Nanti</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Selesai Baru-baru Ini</div></div><span class="bdg g">94% Resolved</span></div>
+            <div class="fbrow"><div class="fbav" style="background:var(--green-s);color:var(--green)"><span class="ic s">check</span></div><div style="flex:1"><div class="fb-name">Dewi Anggraini</div><div class="fb-text">Keluhan antrean lab · Diselesaikan dalam 1j 20mnt</div><div class="fb-time">Kemarin · Kompensasi 100 poin dikirim</div></div></div>
+            <div class="fbrow"><div class="fbav" style="background:var(--green-s);color:var(--green)"><span class="ic s">check</span></div><div style="flex:1"><div class="fb-name">Ahmad Fauzi</div><div class="fb-text">Keluhan fasilitas kamar · Tim maintenance bertindak</div><div class="fb-time">2 hari lalu · Rating naik 2→4 bintang</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         3. SURVEY KEPUASAN
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-survey">
+      <div class="ph">
+        <div class="ph-text"><h2>Survey Kepuasan Publik</h2><p>Rancang, distribusikan, dan analisis survey kepuasan pasien secara sistematis.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">add_circle</span>Buat Survey Baru</button></div>
+      </div>
+      <div class="kstrip k4">
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">star</span></div><div class="kcard-lbl">Overall CSAT</div><div class="kcard-v">4.6<small>/5</small></div><div class="kcard-d up"><span class="ic s">trending_up</span>+0.2 vs Q1</div></div>
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">sentiment_satisfied</span></div><div class="kcard-lbl">NPS Score</div><div class="kcard-v">72</div><div class="kcard-d up"><span class="ic s">arrow_upward</span>+8 vs Q1</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">how_to_reg</span></div><div class="kcard-lbl">Response Rate</div><div class="kcard-v">64<small>%</small></div><div class="kcard-d fl">Target: 70%</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">quiz</span></div><div class="kcard-lbl">Survey Aktif</div><div class="kcard-v">3</div><div class="kcard-d up">Berjalan saat ini</div></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Survey Aktif</div></div><button class="btn pri sm"><span class="ic s">add</span>Survey Baru</button></div>
+          <table class="tbl">
+            <thead><tr><th>Nama Survey</th><th>Segmen</th><th>Respons</th><th>Deadline</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><div class="td1">Kepuasan Layanan ANC Q2</div></td><td>Bumil aktif</td><td>248/400</td><td>31 Mei</td><td><span class="bdg g"><span class="pdot"></span>Live</span></td></tr>
+              <tr><td><div class="td1">Post-Partum Care Experience</div></td><td>Ibu pasca lahir</td><td>89/150</td><td>15 Mei</td><td><span class="bdg a">Ditutup besok</span></td></tr>
+              <tr><td><div class="td1">Imunisasi Parent Survey</div></td><td>Orang tua bayi</td><td>142/200</td><td>20 Mei</td><td><span class="bdg g"><span class="pdot"></span>Live</span></td></tr>
+            </tbody>
+          </table>
+          <hr class="div"/>
+          <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title">Flow Pembuatan Survey</div></div></div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--blue-s);border:1px solid var(--blue-m);font-size:12px;font-weight:600;color:var(--blue)">1. Buat Goal &amp; Objective</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">2. Tentukan Segmen</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">3. Pilih Kuesioner</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">4. Kirim Survey</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">5. Analisis</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">6. Buat Report</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">NPS Breakdown</div></div></div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <div class="nps-ring"><div class="nps-inner"><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--t1)">72</div><div style="font-size:9.5px;color:var(--t3)">NPS</div></div></div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="min-width:52px">Promoter</span><div style="flex:1"><div class="bar"><div class="bf bfg" style="width:72%"></div></div></div><span style="min-width:26px;text-align:right;font-weight:600;color:var(--green)">72%</span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="min-width:52px">Pasif</span><div style="flex:1"><div class="bar"><div class="bf bfn" style="width:15%"></div></div></div><span style="min-width:26px;text-align:right;font-weight:600">15%</span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="min-width:52px">Detractor</span><div style="flex:1"><div class="bar"><div class="bf bfr" style="width:13%"></div></div></div><span style="min-width:26px;text-align:right;font-weight:600;color:var(--red)">13%</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Skor per Unit</div></div></div>
+            <table class="tbl"><thead><tr><th>Unit</th><th>Skor</th><th>Trend</th></tr></thead><tbody>
+              <tr><td class="td1">Poli Kandungan</td><td style="color:var(--green);font-weight:700">4.8</td><td style="color:var(--green)">↑ +0.2</td></tr>
+              <tr><td class="td1">Imunisasi &amp; Anak</td><td style="color:var(--green);font-weight:700">4.6</td><td style="color:var(--green)">↑ +0.1</td></tr>
+              <tr><td class="td1">Farmasi</td><td style="color:var(--amber);font-weight:700">3.7</td><td style="color:var(--red)">↓ -0.2</td></tr>
+              <tr><td class="td1">IGD</td><td style="color:var(--red);font-weight:700">3.2</td><td style="color:var(--red)">↓ -0.4</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         4. STUDIO PROGRAM (Retention & Relationship)
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-studio">
+      <div class="ph">
+        <div class="ph-text"><h2>Studio Program</h2><p>Rancang dan optimalkan program loyalitas bersama AI — dari insight ke eksekusi.</p></div>
+        <div class="ph-act">
+          <button class="btn ghost"><span class="ic s">history</span>Riwayat</button>
+          <button class="btn loy"><span class="ic s">add_circle</span>Program Baru</button>
+        </div>
+      </div>
+
+      <!-- AI COLLABORATOR -->
+      <div class="ai-strip">
+        <div class="ai-strip-av"><span class="ic l" style="color:#fff">smart_toy</span></div>
+        <div class="ai-strip-text">
+          <strong>Sinteta siap berkolaborasi</strong>
+          <span>Berdasarkan data 1.248 member, ada 3 peluang program bulan ini. Adherence ANC T2 turun 8% — momentum yang tepat untuk intervensi loyalty.</span>
+        </div>
+        <div class="ai-strip-actions">
+          <button class="btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25);color:#fff;font-size:12px"><span class="ic s">lightbulb</span>Lihat Rekomendasi</button>
+          <button class="btn" style="background:transparent;border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-size:12px"><span class="ic s">chat</span>Tanya Sinteta</button>
+        </div>
+      </div>
+
+      <!-- STUDIO TABS -->
+      <div class="tabs" id="studio-tabs">
+        <button class="tab on" onclick="studioTab(this,'st-saran')"><span class="ic s">auto_awesome</span>Saran AI <span style="background:var(--loy);color:#fff;padding:1px 6px;border-radius:var(--rf);font-size:10px;font-weight:700;margin-left:4px">3</span></button>
+        <button class="tab" onclick="studioTab(this,'st-aktif')"><span class="ic s">play_circle</span>Berjalan <span style="background:var(--green);color:#fff;padding:1px 6px;border-radius:var(--rf);font-size:10px;font-weight:700;margin-left:4px">2</span></button>
+        <button class="tab" onclick="studioTab(this,'st-draft')"><span class="ic s">edit_note</span>Draft <span style="background:var(--t3);color:#fff;padding:1px 6px;border-radius:var(--rf);font-size:10px;font-weight:700;margin-left:4px">1</span></button>
+        <button class="tab" onclick="studioTab(this,'st-selesai')"><span class="ic s">check_circle</span>Selesai</button>
+        <button class="tab" onclick="studioTab(this,'st-tier')"><span class="ic s">layers</span>Tier &amp; Reward</button>
+        <button class="tab" onclick="studioTab(this,'st-subscription')"><span class="ic s">subscriptions</span>Subscription</button>
+        <button class="tab" onclick="studioTab(this,'st-ai')"><span class="ic s">chat</span>Tanya Sinteta</button>
+      </div>
+
+      <!-- TAB: SARAN AI -->
+      <div id="st-saran" class="studio-panel sp-on">
+        <div class="g32">
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">auto_awesome</span> Rekomendasi Program AI</div><div class="card-sub">Berdasarkan data 30 hari terakhir</div></div><span class="bdg loy">3 Saran</span></div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="border:1px solid var(--loy-m);border-radius:var(--r12);padding:13px 15px;background:var(--loy-s)">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                    <div><div style="font-size:13px;font-weight:600;color:var(--loy);margin-bottom:3px">ANC Completion Challenge</div><div style="font-size:12px;color:var(--t2);line-height:1.5">Pasien ANC T2 hadir 3× berturut-turut → 300 poin bonus + naik tier langsung. Target: 67 pasien.</div></div>
+                    <span style="background:var(--loy);color:#fff;padding:2px 9px;border-radius:var(--rf);font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0">High Impact</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--t3);margin-bottom:10px">
+                    <span style="display:flex;align-items:center;gap:3px"><span class="ic s">group</span>67 pasien</span>
+                    <span style="display:flex;align-items:center;gap:3px"><span class="ic s">schedule</span>6 minggu</span>
+                    <span style="display:flex;align-items:center;gap:3px"><span class="ic s">toll</span>~20K poin</span>
+                  </div>
+                  <div style="display:flex;gap:7px"><button class="btn pri sm" style="flex:1;justify-content:center"><span class="ic s">check</span>Gunakan</button><button class="btn sm ghost"><span class="ic s">edit</span>Edit</button><button class="btn sm ghost"><span class="ic s">close</span>Skip</button></div>
+                </div>
+                <div style="border:1px solid var(--blue-m);border-radius:var(--r12);padding:13px 15px;background:var(--blue-s)">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                    <div><div style="font-size:13px;font-weight:600;color:var(--blue);margin-bottom:3px">Referral Boost — Komunitas Bumil</div><div style="font-size:12px;color:var(--t2);line-height:1.5">Member Gold &amp; Platina dapat kode referral eksklusif. Refer 1 teman hamil = 500 poin.</div></div>
+                    <span style="background:var(--blue);color:#fff;padding:2px 9px;border-radius:var(--rf);font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0">Medium</span>
+                  </div>
+                  <div style="display:flex;gap:7px"><button class="btn sm" style="flex:1;justify-content:center;border-color:var(--blue);color:var(--blue)"><span class="ic s">check</span>Aktifkan</button><button class="btn sm ghost"><span class="ic s">edit</span>Edit</button><button class="btn sm ghost"><span class="ic s">close</span>Skip</button></div>
+                </div>
+                <div style="border:1px solid var(--green-m);border-radius:var(--r12);padding:13px 15px;background:var(--green-s)">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                    <div><div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:3px">Well-baby Streak Reward</div><div style="font-size:12px;color:var(--t2);line-height:1.5">Imunisasi 3× on-schedule tanpa skip = 400 poin + badge "Ibu Peduli". 89 bayi mendekati jadwal.</div></div>
+                    <span style="background:var(--green);color:#fff;padding:2px 9px;border-radius:var(--rf);font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0">Medium</span>
+                  </div>
+                  <div style="display:flex;gap:7px"><button class="btn sm" style="flex:1;justify-content:center;border-color:var(--green);color:var(--green)"><span class="ic s">check</span>Aktifkan</button><button class="btn sm ghost"><span class="ic s">edit</span>Edit</button><button class="btn sm ghost"><span class="ic s">close</span>Skip</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Mengapa saran ini?</div><div class="card-sub">Alasan Sinteta memilih program ini</div></div></div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;gap:10px;padding:10px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line)"><div style="width:32px;height:32px;border-radius:50%;background:var(--loy-s);color:var(--loy);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ic s">trending_down</span></div><div><div style="font-size:12px;font-weight:600;color:var(--t1)">Adherence ANC T2 turun 8%</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">67 pasien berisiko tidak melanjutkan ke T3</div></div></div>
+                <div style="display:flex;gap:10px;padding:10px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line)"><div style="width:32px;height:32px;border-radius:50%;background:var(--blue-s);color:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ic s">hub</span></div><div><div style="font-size:12px;font-weight:600;color:var(--t1)">Komunitas bumil sangat aktif bulan ini</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Momentum tepat untuk referral campaign</div></div></div>
+                <div style="display:flex;gap:10px;padding:10px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line)"><div style="width:32px;height:32px;border-radius:50%;background:var(--green-s);color:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ic s">child_care</span></div><div><div style="font-size:12px;font-weight:600;color:var(--t1)">89 bayi mendekati jadwal imunisasi</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Window intervensi reward terbuka 3 minggu ke depan</div></div></div>
+              </div>
+            </div>
+            <div class="card" style="border-color:var(--loy-m);background:var(--loy-s)">
+              <div class="card-hd" style="margin-bottom:8px"><div class="card-hd-l"><div class="card-title" style="color:var(--loy)"><span class="ic s">smart_toy</span> Simulasi Dampak</div></div></div>
+              <div style="display:flex;gap:10px;margin-bottom:10px">
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">+14%</div><div class="l">Estimasi kenaikan adherence</div></div>
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--loy)">~Rp18Jt</div><div class="l">Estimasi revenue tambahan</div></div>
+              </div>
+              <div style="font-size:11.5px;color:var(--loy);line-height:1.5;font-style:italic">Jika semua 3 program dijalankan bersamaan bulan ini. Simulasi berdasarkan data historis program serupa.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: BERJALAN -->
+      <div id="st-aktif" class="studio-panel" style="display:none">
+        <div class="g32">
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Program Berjalan</div><div class="card-sub">2 aktif saat ini · klik untuk detail &amp; edit</div></div><span class="bdg g"><span class="pdot"></span>2 Live</span></div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="border:1px solid var(--line);border-radius:var(--r12);padding:14px 16px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='var(--loy-m)'" onmouseout="this.style.borderColor='var(--line)'">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+                    <div><div style="font-size:13px;font-weight:600;color:var(--t1)">ANC On-Schedule Reward</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Setup manual · dr. Ratna · Dibuat 1 Apr</div></div>
+                    <span class="bdg g"><span class="pdot"></span>Live</span>
+                  </div>
+                  <div style="display:flex;gap:16px;margin-bottom:10px">
+                    <div><div style="font-size:11px;color:var(--t3)">Terklaim</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--green)">284</div></div>
+                    <div><div style="font-size:11px;color:var(--t3)">Target</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--t1)">400</div></div>
+                    <div><div style="font-size:11px;color:var(--t3)">Sisa Hari</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--amber)">14</div></div>
+                    <div><div style="font-size:11px;color:var(--t3)">Konversi</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--blue)">71%</div></div>
+                  </div>
+                  <div class="bar lg"><div class="bf bfg" style="width:71%"></div></div>
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:3px"><span>71% tercapai — on track</span><span>31 Mei 2026</span></div>
+                </div>
+                <div style="border:1px solid var(--line);border-radius:var(--r12);padding:14px 16px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='var(--loy-m)'" onmouseout="this.style.borderColor='var(--line)'">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+                    <div><div style="font-size:13px;font-weight:600;color:var(--t1)">Referral Bumil April</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Setup AI · Sinteta · Dibuat 5 Apr</div></div>
+                    <span class="bdg g"><span class="pdot"></span>Live</span>
+                  </div>
+                  <div style="display:flex;gap:16px;margin-bottom:10px">
+                    <div><div style="font-size:11px;color:var(--t3)">Referral</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--green)">48</div></div>
+                    <div><div style="font-size:11px;color:var(--t3)">Target</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--t1)">60</div></div>
+                    <div><div style="font-size:11px;color:var(--t3)">Sisa Hari</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--amber)">13</div></div>
+                    <div><div style="font-size:11px;color:var(--t3)">Konversi</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--blue)">80%</div></div>
+                  </div>
+                  <div class="bar lg"><div class="bf bfb" style="width:80%"></div></div>
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:3px"><span>Melampaui ekspektasi 🎉</span><span>30 Apr 2026</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Outreach Performance</div><div class="card-sub">Efektivitas pengiriman program</div></div></div>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>WA Reminder open rate</span><span style="font-weight:600;color:var(--green)">72%</span></div><div class="bar"><div class="bf bfg" style="width:72%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Nuans App notification</span><span style="font-weight:600;color:var(--blue)">58%</span></div><div class="bar"><div class="bf bfb" style="width:58%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Konversi → booking</span><span style="font-weight:600;color:var(--green)">84%</span></div><div class="bar"><div class="bf bfg" style="width:84%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Win-back dropout</span><span style="font-weight:600;color:var(--amber)">41%</span></div><div class="bar"><div class="bf bfa" style="width:41%"></div></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Sinteta Memantau</div></div></div>
+              <div class="ab loy"><div class="ab-hd">Referral Bumil — Hampir Target</div><div class="ab-body">80% tercapai, 13 hari tersisa. Sinteta menyarankan push notification ke 12 member Gold yang belum merujuk. Estimasi +8 referral.</div></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">send</span>Kirim Push Notif</button><button class="btn ghost">Nanti</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: DRAFT -->
+      <div id="st-draft" class="studio-panel" style="display:none">
+        <div class="g32">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Draft Program</div><div class="card-sub">Belum diluncurkan · klik untuk lanjutkan editing</div></div><span class="bdg n">1 Draft</span></div>
+            <div style="border:1px solid var(--amber-m);border-radius:var(--r12);padding:14px 16px;background:var(--amber-s)">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+                <div><div style="font-size:13px;font-weight:600;color:var(--amber)">Post-Partum Care Reward</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Dibuat 10 Apr · Belum selesai dikonfigurasi</div></div>
+                <span class="bdg a">Draft</span>
+              </div>
+              <div style="font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:10px">Reward untuk pasien yang menyelesaikan kunjungan post-partum 6 minggu. Target: ibu pasca lahir bulan ini. <strong>Perlu: konfirmasi budget poin dan pilihan reward.</strong></div>
+              <div style="display:flex;gap:7px"><button class="btn pri sm" style="flex:1;justify-content:center"><span class="ic s">edit</span>Lanjutkan Draft</button><button class="btn sm ghost"><span class="ic s">auto_awesome</span>Minta Sinteta Lengkapi</button><button class="btn sm ghost"><span class="ic s">delete</span>Hapus</button></div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Sinteta bisa melengkapi draft ini</div></div></div>
+              <div class="ab loy"><div class="ab-hd">Analisis Post-Partum Care Reward</div><div class="ab-body">Berdasarkan data, 34 ibu pasca lahir bulan ini belum kunjungan 6 minggu. Budget yang disarankan: 150 poin/kunjungan. Reward: diskon 10% konsultasi atau akses komunitas premium.</div></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">auto_awesome</span>Lengkapi Otomatis</button><button class="btn ghost">Review Manual</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: SELESAI -->
+      <div id="st-selesai" class="studio-panel" style="display:none">
+        <div class="card mb">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Program Selesai</div><div class="card-sub">Riwayat program yang telah berakhir</div></div><span class="bdg n">4 Program</span></div>
+          <table class="tbl">
+            <thead><tr><th>Program</th><th>Periode</th><th>Terklaim/Target</th><th>Konversi</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><div class="td1">ANC Completion Q1</div><div class="td2">Setup manual · Mar 2026</div></td><td>1–31 Mar</td><td>312/350</td><td style="color:var(--green);font-weight:600">89%</td><td><span class="bdg g">Berhasil</span></td></tr>
+              <tr><td><div class="td1">Imunisasi Streak Feb</div><div class="td2">Setup AI · Feb 2026</div></td><td>1–28 Feb</td><td>98/120</td><td style="color:var(--green);font-weight:600">82%</td><td><span class="bdg g">Berhasil</span></td></tr>
+              <tr><td><div class="td1">Referral Januari</div><div class="td2">Setup AI · Jan 2026</div></td><td>1–31 Jan</td><td>28/50</td><td style="color:var(--amber);font-weight:600">56%</td><td><span class="bdg a">Partial</span></td></tr>
+              <tr><td><div class="td1">Welcome Bonus Pasien Baru</div><div class="td2">Setup manual · Des 2025</div></td><td>Des 2025</td><td>144/150</td><td style="color:var(--green);font-weight:600">96%</td><td><span class="bdg g">Berhasil</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ab loy"><div class="ab-hd"><span class="ic s">smart_toy</span>Sinteta: Pola dari program selesai</div><div class="ab-body">Program berbasis imunisasi dan ANC konsisten menghasilkan konversi &gt;80%. Referral kurang efektif jika tidak ada insentif komunitas. Rekomendasi: gabungkan referral dengan challenge komunitas di program berikutnya.</div></div>
+      </div>
+
+      <!-- TAB: TIER & REWARD -->
+      <div id="st-tier" class="studio-panel" style="display:none">
+        <div class="g32">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Tier &amp; Reward Designer</div><div class="card-sub">Konfigurasi struktur program — AI bantu kalkulasi dampak</div></div><button class="btn ghost sm"><span class="ic s">edit</span>Edit Tier</button></div>
+            <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px">
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line)"><div style="width:28px;height:28px;border-radius:50%;background:#E0E0DC;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#666;flex-shrink:0">B</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--t1)">Bunda Basic</div><div style="font-size:11px;color:var(--t3)">0 – 1.999 poin · 624 member</div></div><div style="font-size:11.5px;color:var(--t3)">Akses standar</div></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r8);background:#DDF0FC;border:1px solid #BAD8F4"><div style="width:28px;height:28px;border-radius:50%;background:#85B7EB;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">S</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:#0369A1">Bunda Silver</div><div style="font-size:11px;color:var(--t3)">2.000 – 3.999 poin · 398 member</div></div><div style="font-size:11.5px;color:#0369A1">Priority booking</div></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r8);background:#FEF3C7;border:1px solid #FBD89B"><div style="width:28px;height:28px;border-radius:50%;background:#EF9F27;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">G</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:#92400E">Bunda Gold</div><div style="font-size:11px;color:var(--t3)">4.000 – 7.999 poin · 186 member</div></div><div style="font-size:11.5px;color:#92400E">Dedicated bidan</div></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r8);background:var(--loy-s);border:1px solid var(--loy-m)"><div style="width:28px;height:28px;border-radius:50%;background:var(--loy);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">P</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--loy)">Bunda Platina</div><div style="font-size:11px;color:var(--t3)">8.000+ poin · 40 member</div></div><div style="font-size:11.5px;color:var(--loy)">Home visit + hotline</div></div>
+            </div>
+            <div style="font-size:11.5px;font-weight:600;color:var(--t2);margin-bottom:8px">Poin per Aksi</div>
+            <table class="tbl">
+              <thead><tr><th>Aksi Pasien</th><th>Poin</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td class="td1">ANC on-schedule</td><td style="font-weight:600;color:var(--loy)">100</td><td><span class="bdg g">Aktif</span></td></tr>
+                <tr><td class="td1">Imunisasi on-schedule</td><td style="font-weight:600;color:var(--loy)">80</td><td><span class="bdg g">Aktif</span></td></tr>
+                <tr><td class="td1">Referral berhasil</td><td style="font-weight:600;color:var(--loy)">300–500</td><td><span class="bdg g">Aktif</span></td></tr>
+                <tr><td class="td1">Give feedback via Nuans</td><td style="font-weight:600;color:var(--loy)">20</td><td><span class="bdg g">Aktif</span></td></tr>
+                <tr><td class="td1">Aktif komunitas/hari</td><td style="font-weight:600;color:var(--loy)">10</td><td><span class="bdg g">Aktif</span></td></tr>
+                <tr><td class="td1">Isi health survey</td><td style="font-weight:600;color:var(--loy)">50</td><td><span class="bdg a">Draft</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Adherence per Tier</div><div class="card-sub">Korelasi tier dengan kepatuhan klinis</div></div></div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Bunda Basic</span><span style="font-weight:600;color:var(--t2)">52%</span></div><div class="bar lg"><div class="bf bfn" style="width:52%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Bunda Silver</span><span style="font-weight:600;color:var(--blue)">74%</span></div><div class="bar lg"><div class="bf bfb" style="width:74%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Bunda Gold</span><span style="font-weight:600;color:var(--amber)">88%</span></div><div class="bar lg"><div class="bf bfa" style="width:88%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Bunda Platina</span><span style="font-weight:600;color:var(--loy)">97%</span></div><div class="bar lg"><div class="bf bfl" style="width:97%"></div></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Saran Sinteta</div></div></div>
+              <div class="ab loy"><div class="ab-hd">Optimalkan Threshold Gold</div><div class="ab-body">Menaikkan threshold Gold dari 4.000 ke 4.500 poin mendorong 43 pasien Silver menambah 1–2 kunjungan. Estimasi revenue tambahan: <strong>Rp 8.6 jt/bulan</strong>.</div></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">check</span>Terapkan Perubahan</button><button class="btn ghost">Simulasi Dulu</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: SUBSCRIPTION -->
+      <div id="st-subscription" class="studio-panel" style="display:none">
+        <div class="g32">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Paket Subscription Aktif</div></div><button class="btn pri sm"><span class="ic s">add</span>Paket Baru</button></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="padding:14px 16px;border-radius:var(--r12);border:1px solid var(--green-m);background:var(--green-s)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px"><div><div style="font-size:13px;font-weight:600;color:var(--green)">Paket Bumil Care</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">3× ANC + USG 4D + Lab + Konsul WA</div></div><span class="bdg g">Aktif</span></div>
+                <div style="display:flex;gap:16px;margin-bottom:8px"><div><div style="font-size:11px;color:var(--t3)">Subscriber</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--green)">248</div></div><div><div style="font-size:11px;color:var(--t3)">Harga</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--t1)">Rp 850rb</div></div><div><div style="font-size:11px;color:var(--t3)">MRR</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--green)">Rp 211Jt</div></div></div>
+                <div style="display:flex;gap:7px"><button class="btn ghost sm"><span class="ic s">edit</span>Edit Paket</button><button class="btn ghost sm"><span class="ic s">analytics</span>Lihat Analytics</button></div>
+              </div>
+              <div style="padding:14px 16px;border-radius:var(--r12);border:1px solid var(--blue-m);background:var(--blue-s)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px"><div><div style="font-size:13px;font-weight:600;color:var(--blue)">Paket Tumbuh Kembang</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Imunisasi + 4× well-baby + Konsul nutrisi</div></div><span class="bdg b">Aktif</span></div>
+                <div style="display:flex;gap:16px;margin-bottom:8px"><div><div style="font-size:11px;color:var(--t3)">Subscriber</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--blue)">142</div></div><div><div style="font-size:11px;color:var(--t3)">Harga</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--t1)">Rp 1.2Jt/th</div></div><div><div style="font-size:11px;color:var(--t3)">ARR</div><div style="font-family:'Lexend',sans-serif;font-size:20px;font-weight:700;color:var(--blue)">Rp 170Jt</div></div></div>
+                <div style="display:flex;gap:7px"><button class="btn ghost sm"><span class="ic s">edit</span>Edit Paket</button><button class="btn ghost sm"><span class="ic s">analytics</span>Lihat Analytics</button></div>
+              </div>
+              <div style="padding:14px 16px;border-radius:var(--r12);border:1px solid var(--amber-m);background:var(--amber-s)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px"><div><div style="font-size:13px;font-weight:600;color:var(--amber)">Paket Post-Partum</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Laktasi + KB + Check-up 6 minggu · Draft</div></div><span class="bdg a">Draft</span></div>
+                <div style="display:flex;gap:7px"><button class="btn pri sm"><span class="ic s">publish</span>Publish Sekarang</button><button class="btn ghost sm"><span class="ic s">edit</span>Edit Dulu</button></div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Revenue Subscription</div></div></div>
+              <div style="display:flex;gap:10px;margin-bottom:12px">
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">Rp 48Jt</div><div class="l">MRR total subscription</div></div>
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--blue)">+12%</div><div class="l">vs bulan lalu</div></div>
+              </div>
+              <div class="ab loy"><div class="ab-hd"><span class="ic s">smart_toy</span>Peluang baru</div><div class="ab-body">Publish Paket Post-Partum sekarang — 34 ibu pasca lahir bulan ini adalah target potensial. Estimasi tambahan Rp 15Jt MRR.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: TANYA SINTETA -->
+      <div id="st-ai" class="studio-panel" style="display:none">
+        <div class="g32">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Chat dengan Sinteta</div><div class="card-sub">Instruksikan, tanya, atau minta simulasi program</div></div></div>
+            <div style="border:1px solid var(--line);border-radius:var(--r12);padding:14px;min-height:280px;display:flex;flex-direction:column;gap:9px;margin-bottom:12px;background:var(--srf2)">
+              <div style="display:flex;gap:9px">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--loy);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ic s" style="font-size:14px;color:#fff">smart_toy</span></div>
+                <div style="background:var(--srf);border:1px solid var(--line);border-radius:var(--r8);padding:9px 12px;max-width:85%"><div style="font-size:11px;font-weight:600;color:var(--loy);margin-bottom:3px">Sinteta</div><div style="font-size:12.5px;color:var(--t2);line-height:1.5">Halo dr. Ratna! Saya sudah analisis data 30 hari terakhir. Adherence ANC T2 turun 8% — ada 67 pasien yang berisiko tidak melanjutkan ke trimester 3. Saya punya 3 rekomendasi program. Mau mulai dari mana?</div></div>
+              </div>
+              <div style="display:flex;gap:9px;justify-content:flex-end">
+                <div style="background:var(--blue-s);border:1px solid var(--blue-m);border-radius:var(--r8);padding:9px 12px;max-width:80%"><div style="font-size:12.5px;color:var(--blue);line-height:1.5">Coba simulasikan dampak jika semua 3 program dijalankan bersamaan bulan ini.</div></div>
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--blue-s);color:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700">DR</div>
+              </div>
+              <div style="display:flex;gap:9px">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--loy);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ic s" style="font-size:14px;color:#fff">smart_toy</span></div>
+                <div style="background:var(--srf);border:1px solid var(--line);border-radius:var(--r8);padding:9px 12px;max-width:85%"><div style="font-size:11px;font-weight:600;color:var(--loy);margin-bottom:3px">Sinteta</div><div style="font-size:12.5px;color:var(--t2);line-height:1.5">Jika ketiga program berjalan bersamaan:<br/>• ANC Completion Challenge → +14% adherence ANC T2<br/>• Referral Boost → estimasi 20 pasien baru<br/>• Well-baby Streak → 89 bayi terjangkau<br/><br/>Total estimasi revenue tambahan: <strong>~Rp 18–22 Jt</strong> bulan ini. Budget poin yang dibutuhkan: ~35K poin. Mau saya siapkan proposal untuk ketiganya?</div></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px;margin-bottom:8px">
+              <input class="inp" id="sinteta-input" placeholder="Tanya atau instruksikan Sinteta..." style="flex:1"/>
+              <button class="btn loy"><span class="ic s">send</span>Kirim</button>
+            </div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <button class="btn ghost xs" onclick="document.getElementById('sinteta-input').value=this.textContent">Buat program referral baru</button>
+              <button class="btn ghost xs" onclick="document.getElementById('sinteta-input').value=this.textContent">Optimalkan threshold tier Gold</button>
+              <button class="btn ghost xs" onclick="document.getElementById('sinteta-input').value=this.textContent">Simulasi dampak program bulan depan</button>
+              <button class="btn ghost xs" onclick="document.getElementById('sinteta-input').value=this.textContent">Generate laporan loyalitas</button>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Pertanyaan Populer</div></div></div>
+              <div class="ia"><div class="ia-ic" style="background:var(--loy-s)"><span class="ic s" style="color:var(--loy)">trending_up</span></div><div style="flex:1"><div class="ia-title">Segmen mana yang paling potensial bulan ini?</div></div><span class="ic s" style="color:var(--t3)">arrow_forward</span></div>
+              <div class="ia"><div class="ia-ic" style="background:var(--blue-s)"><span class="ic s" style="color:var(--blue)">compare_arrows</span></div><div style="flex:1"><div class="ia-title">Bandingkan performa program Q1 vs Q2</div></div><span class="ic s" style="color:var(--t3)">arrow_forward</span></div>
+              <div class="ia"><div class="ia-ic" style="background:var(--green-s)"><span class="ic s" style="color:var(--green)">savings</span></div><div style="flex:1"><div class="ia-title">Berapa budget poin yang optimal bulan ini?</div></div><span class="ic s" style="color:var(--t3)">arrow_forward</span></div>
+              <div class="ia"><div class="ia-ic" style="background:var(--amber-s)"><span class="ic s" style="color:var(--amber)">person_search</span></div><div style="flex:1"><div class="ia-title">Siapa 10 pasien yang paling berpengaruh?</div></div><span class="ic s" style="color:var(--t3)">arrow_forward</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+        <!-- LEFT -->
+        <div class="col">
+          <!-- AI REKOMENDASI PROGRAM -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">auto_awesome</span> Rekomendasi Program AI</div><div class="card-sub">Berdasarkan data 30 hari terakhir</div></div><span class="bdg loy">3 Saran</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <!-- Rec 1 -->
+              <div style="border:1px solid var(--loy-m);border-radius:var(--r12);padding:13px 15px;background:var(--loy-s)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                  <div>
+                    <div style="font-size:13px;font-weight:600;color:var(--loy);margin-bottom:3px">ANC Completion Challenge</div>
+                    <div style="font-size:12px;color:var(--t2);line-height:1.5">Pasien ANC T2 hadir 3× berturut-turut → 300 poin bonus + naik tier langsung. Target: 67 pasien.</div>
+                  </div>
+                  <span style="background:var(--loy);color:#fff;padding:2px 9px;border-radius:var(--rf);font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0">High Impact</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--t3);margin-bottom:10px">
+                  <span style="display:flex;align-items:center;gap:3px"><span class="ic s">group</span>67 pasien</span>
+                  <span style="display:flex;align-items:center;gap:3px"><span class="ic s">schedule</span>6 minggu</span>
+                  <span style="display:flex;align-items:center;gap:3px"><span class="ic s">toll</span>~20K poin</span>
+                </div>
+                <div style="display:flex;gap:7px">
+                  <button class="btn pri sm" style="flex:1;justify-content:center"><span class="ic s">check</span>Gunakan</button>
+                  <button class="btn sm ghost"><span class="ic s">edit</span>Edit</button>
+                  <button class="btn sm ghost"><span class="ic s">close</span>Skip</button>
+                </div>
+              </div>
+              <!-- Rec 2 -->
+              <div style="border:1px solid var(--blue-m);border-radius:var(--r12);padding:13px 15px;background:var(--blue-s)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                  <div>
+                    <div style="font-size:13px;font-weight:600;color:var(--blue);margin-bottom:3px">Referral Boost — Komunitas Bumil</div>
+                    <div style="font-size:12px;color:var(--t2);line-height:1.5">Member Gold &amp; Platina dapat kode referral eksklusif. Refer 1 teman hamil = 500 poin.</div>
+                  </div>
+                  <span style="background:var(--blue);color:#fff;padding:2px 9px;border-radius:var(--rf);font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0">Medium</span>
+                </div>
+                <div style="display:flex;gap:7px">
+                  <button class="btn sm" style="flex:1;justify-content:center;border-color:var(--blue);color:var(--blue)"><span class="ic s">check</span>Aktifkan</button>
+                  <button class="btn sm ghost"><span class="ic s">edit</span>Edit</button>
+                  <button class="btn sm ghost"><span class="ic s">close</span>Skip</button>
+                </div>
+              </div>
+              <!-- Rec 3 -->
+              <div style="border:1px solid var(--green-m);border-radius:var(--r12);padding:13px 15px;background:var(--green-s)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                  <div>
+                    <div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:3px">Well-baby Streak Reward</div>
+                    <div style="font-size:12px;color:var(--t2);line-height:1.5">Imunisasi 3× on-schedule tanpa skip = 400 poin + badge "Ibu Peduli". 89 bayi mendekati jadwal.</div>
+                  </div>
+                  <span style="background:var(--green);color:#fff;padding:2px 9px;border-radius:var(--rf);font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0">Medium</span>
+                </div>
+                <div style="display:flex;gap:7px">
+                  <button class="btn sm" style="flex:1;justify-content:center;border-color:var(--green);color:var(--green)"><span class="ic s">check</span>Aktifkan</button>
+                  <button class="btn sm ghost"><span class="ic s">edit</span>Edit</button>
+                  <button class="btn sm ghost"><span class="ic s">close</span>Skip</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROGRAM AKTIF -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Program Aktif</div><div class="card-sub">Berjalan saat ini · klik untuk detail</div></div><span class="bdg g"><span class="pdot"></span>2 Live</span></div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div style="border:1px solid var(--line);border-radius:var(--r12);padding:13px 15px;cursor:pointer" onclick="this.style.borderColor='var(--loy-m)'" onmouseleave="this.style.borderColor='var(--line)'">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+                  <div><div style="font-size:13px;font-weight:600;color:var(--t1)">ANC On-Schedule Reward</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Dibuat 1 Apr · Setup manual · Berakhir 31 Mei</div></div>
+                  <span class="bdg g"><span class="pdot"></span>Live</span>
+                </div>
+                <div style="display:flex;gap:16px;margin-bottom:9px">
+                  <div><div style="font-size:11px;color:var(--t3)">Terklaim</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--green)">284</div></div>
+                  <div><div style="font-size:11px;color:var(--t3)">Target</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--t1)">400</div></div>
+                  <div><div style="font-size:11px;color:var(--t3)">Sisa</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--amber)">14h</div></div>
+                  <div><div style="font-size:11px;color:var(--t3)">Konversi</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--blue)">71%</div></div>
+                </div>
+                <div class="bar lg"><div class="bf bfg" style="width:71%"></div></div>
+                <div style="font-size:11px;color:var(--t3);margin-top:3px">71% tercapai — on track</div>
+              </div>
+              <div style="border:1px solid var(--line);border-radius:var(--r12);padding:13px 15px;cursor:pointer" onclick="this.style.borderColor='var(--loy-m)'" onmouseleave="this.style.borderColor='var(--line)'">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+                  <div><div style="font-size:13px;font-weight:600;color:var(--t1)">Referral Bumil April</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Dibuat AI · Berakhir 30 Apr</div></div>
+                  <span class="bdg g"><span class="pdot"></span>Live</span>
+                </div>
+                <div style="display:flex;gap:16px;margin-bottom:9px">
+                  <div><div style="font-size:11px;color:var(--t3)">Referral</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--green)">48</div></div>
+                  <div><div style="font-size:11px;color:var(--t3)">Target</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--t1)">60</div></div>
+                  <div><div style="font-size:11px;color:var(--t3)">Sisa</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--amber)">13h</div></div>
+                  <div><div style="font-size:11px;color:var(--t3)">Konversi</div><div style="font-family:'Lexend',sans-serif;font-size:18px;font-weight:700;color:var(--blue)">80%</div></div>
+                </div>
+                <div class="bar lg"><div class="bf bfb" style="width:80%"></div></div>
+                <div style="font-size:11px;color:var(--t3);margin-top:3px">Melampaui ekspektasi</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col">
+          <!-- TIER DESIGNER -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Tier &amp; Reward Designer</div><div class="card-sub">AI bantu kalkulasi dampak perubahan</div></div><button class="btn ghost sm"><span class="ic s">edit</span>Edit</button></div>
+            <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px">
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line)">
+                <div style="width:28px;height:28px;border-radius:50%;background:#E0E0DC;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#666;flex-shrink:0">B</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--t1)">Bunda Basic</div><div style="font-size:11px;color:var(--t3)">0 – 1.999 poin · 624 member</div></div>
+                <div style="font-size:11.5px;color:var(--t3)">Akses standar</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r8);background:#DDF0FC;border:1px solid #BAD8F4">
+                <div style="width:28px;height:28px;border-radius:50%;background:#85B7EB;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">S</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:#0369A1">Bunda Silver</div><div style="font-size:11px;color:var(--t3)">2.000 – 3.999 poin · 398 member</div></div>
+                <div style="font-size:11.5px;color:#0369A1">Priority booking</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r8);background:#FEF3C7;border:1px solid #FBD89B">
+                <div style="width:28px;height:28px;border-radius:50%;background:#EF9F27;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">G</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:#92400E">Bunda Gold</div><div style="font-size:11px;color:var(--t3)">4.000 – 7.999 poin · 186 member</div></div>
+                <div style="font-size:11.5px;color:#92400E">Dedicated bidan</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r8);background:var(--loy-s);border:1px solid var(--loy-m)">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--loy);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">P</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--loy)">Bunda Platina</div><div style="font-size:11px;color:var(--t3)">8.000+ poin · 40 member</div></div>
+                <div style="font-size:11.5px;color:var(--loy)">Home visit + hotline</div>
+              </div>
+            </div>
+            <div class="ai-sug"><span class="ic s">smart_toy</span><p>Menaikkan threshold Gold ke 4.500 poin mendorong 43 pasien Silver menambah 1–2 kunjungan lebih. Estimasi revenue tambahan: Rp 8.6 jt/bulan.</p></div>
+          </div>
+
+          <!-- SUBSCRIPTION PAKET -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Paket Subscription</div></div><button class="btn pri sm"><span class="ic s">add</span>Paket Baru</button></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="padding:10px 12px;border-radius:var(--r8);border:1px solid var(--green-m);background:var(--green-s);display:flex;align-items:center;gap:10px">
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--green)">Paket Bumil Care</div><div style="font-size:11px;color:var(--t3);margin-top:1px">3× ANC + USG 4D + Lab + Konsul WA</div></div>
+                <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:var(--green)">Rp 850rb</div><div style="font-size:10.5px;color:var(--t3)">248 subscriber</div></div>
+                <span class="bdg g">Aktif</span>
+              </div>
+              <div style="padding:10px 12px;border-radius:var(--r8);border:1px solid var(--blue-m);background:var(--blue-s);display:flex;align-items:center;gap:10px">
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--blue)">Paket Tumbuh Kembang</div><div style="font-size:11px;color:var(--t3);margin-top:1px">Imunisasi + 4× well-baby + Nutrisi</div></div>
+                <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:var(--blue)">Rp 1.2Jt/th</div><div style="font-size:10.5px;color:var(--t3)">142 subscriber</div></div>
+                <span class="bdg b">Aktif</span>
+              </div>
+              <div style="padding:10px 12px;border-radius:var(--r8);border:1px solid var(--line);background:var(--srf2);display:flex;align-items:center;gap:10px">
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--t2)">Paket Post-Partum</div><div style="font-size:11px;color:var(--t3);margin-top:1px">Laktasi + KB + Check-up 6 minggu</div></div>
+                <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:var(--t2)">Rp 450rb</div><div style="font-size:10.5px;color:var(--t3)">Draft</div></div>
+                <span class="bdg n">Draft</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI CHAT -->
+          <div class="card" style="border-color:var(--loy-m);background:var(--loy-s)">
+            <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title" style="color:var(--loy);display:flex;align-items:center;gap:6px"><span class="ic s">chat</span>Tanya Sinteta</div></div></div>
+            <div style="background:rgba(82,54,224,.08);border-radius:var(--r8);padding:9px 11px;margin-bottom:10px">
+              <div style="font-size:11px;font-weight:600;color:var(--loy);margin-bottom:3px">Sinteta</div>
+              <div style="font-size:12.5px;color:var(--t2);line-height:1.5">Pasien aktif komunitas Nuans adherence 23% lebih tinggi. Mau saya buat program reward untuk engagement komunitas?</div>
+            </div>
+            <div style="display:flex;gap:7px;margin-bottom:8px">
+              <input class="inp" placeholder="Instruksikan Sinteta..." style="flex:1;border-color:var(--loy-m);background:var(--srf)"/>
+              <button class="btn loy"><span class="ic s">send</span>Kirim</button>
+            </div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <button class="btn ghost xs">Buat program referral</button>
+              <button class="btn ghost xs">Optimalkan tier</button>
+              <button class="btn ghost xs">Simulasikan dampak</button>
+              <button class="btn ghost xs">Generate report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         5. PROGRAM DELIVERY
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-delivery">
+      <div class="ph">
+        <div class="ph-text"><h2>Program Delivery</h2><p>Empat jalur pengiriman program loyalitas — pilih berdasarkan tujuan intervensi.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">send</span>Kirim Outreach Massal</button></div>
+      </div>
+      <div class="kstrip k4">
+        <div class="kcard kr"><div class="kcard-ic"><span class="ic">person_alert</span></div><div class="kcard-lbl">Risk-based Aktif</div><div class="kcard-v">7</div><div class="kcard-d dn">Intervensi segera</div></div>
+        <div class="kcard ka"><div class="kcard-ic"><span class="ic">person_search</span></div><div class="kcard-lbl">Reference-based</div><div class="kcard-v">23</div><div class="kcard-d fl">Monitor &amp; outreach</div></div>
+        <div class="kcard kl"><div class="kcard-ic"><span class="ic">share</span></div><div class="kcard-lbl">Referral Program</div><div class="kcard-v">142</div><div class="kcard-d up"><span class="ic s">trending_up</span>Bulan ini</div></div>
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">celebration</span></div><div class="kcard-lbl">Milestone Terpenuhi</div><div class="kcard-v">89</div><div class="kcard-d up">Minggu ini</div></div>
+      </div>
+
+      <div class="g2">
+        <!-- LANES COL 1 -->
+        <div>
+          <!-- LANE 1: RISK-BASED -->
+          <div class="lane open" id="lane-risk">
+            <div class="lane-hd" onclick="toggleLane('lane-risk')">
+              <div class="lane-color" style="background:var(--red)"></div>
+              <div class="lane-ic" style="background:var(--red-s)"><span class="ic" style="color:var(--red)">person_alert</span></div>
+              <div>
+                <div class="lane-title">Risk-based</div>
+                <div class="lane-desc">Pasien terdeteksi berisiko dropout oleh Sinteta</div>
+              </div>
+              <div class="lane-badge"><span class="bdg r"><span class="pdot"></span>7 Kritis</span></div>
+              <span class="ic s lane-toggle">expand_more</span>
+            </div>
+            <div class="lane-body">
+              <!-- Step flow -->
+              <div style="display:flex;align-items:center;gap:4px;overflow-x:auto;padding:4px 0 12px;margin-bottom:12px">
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:70px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">1</div>
+                  <div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Sistem<br>deteksi</div>
+                </div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:70px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">2</div>
+                  <div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Susun<br>saran</div>
+                </div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:70px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">3</div>
+                  <div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Buat<br>deliverable</div>
+                </div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:70px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">4</div>
+                  <div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Kirim ke<br>audiens</div>
+                </div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:70px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">5</div>
+                  <div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Pantau<br>performa</div>
+                </div>
+              </div>
+              <!-- Patients -->
+              <div class="riskrow hi">
+                <div class="risk-av" style="background:var(--red-s);color:var(--red)">FZ</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:var(--t1)">Fatimah Zahra</div>
+                  <div style="font-size:11.5px;color:var(--t3)">Hamil 32 minggu · Missed ANC 3×</div>
+                </div>
+                <div style="text-align:right"><div class="risk-pct">89%</div><div class="bar sm" style="width:60px;margin-top:2px"><div class="bf bfr" style="width:89%"></div></div></div>
+                <button class="btn danger sm"><span class="ic s">phone</span>Hubungi</button>
+              </div>
+              <div class="riskrow hi">
+                <div class="risk-av" style="background:var(--red-s);color:var(--red)">NA</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:var(--t1)">Nur Aisyah</div>
+                  <div style="font-size:11.5px;color:var(--t3)">Bayi 9 bulan · Imunisasi overdue 6 minggu</div>
+                </div>
+                <div style="text-align:right"><div class="risk-pct">82%</div><div class="bar sm" style="width:60px;margin-top:2px"><div class="bf bfr" style="width:82%"></div></div></div>
+                <button class="btn danger sm"><span class="ic s">person</span>Eskalasi</button>
+              </div>
+              <div class="riskrow md">
+                <div class="risk-av" style="background:var(--amber-s);color:var(--amber)">RM</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:var(--t1)">Rini Marlina</div>
+                  <div style="font-size:11.5px;color:var(--t3)">Post-partum 6 minggu · feedback negatif</div>
+                </div>
+                <div style="text-align:right"><div class="risk-pct">71%</div><div class="bar sm" style="width:60px;margin-top:2px"><div class="bf bfa" style="width:71%"></div></div></div>
+                <button class="btn sm" style="border-color:var(--amber);color:var(--amber)"><span class="ic s">card_giftcard</span>Tawarkan</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- LANE 2: REFERENCE-BASED -->
+          <div class="lane" id="lane-ref">
+            <div class="lane-hd" onclick="toggleLane('lane-ref')">
+              <div class="lane-color" style="background:var(--blue)"></div>
+              <div class="lane-ic" style="background:var(--blue-s)"><span class="ic" style="color:var(--blue)">person_search</span></div>
+              <div>
+                <div class="lane-title">Reference-based</div>
+                <div class="lane-desc">Program berdasarkan profil &amp; segmentasi pasien</div>
+              </div>
+              <div class="lane-badge"><span class="bdg b">23 Pasien</span></div>
+              <span class="ic s lane-toggle">expand_more</span>
+            </div>
+            <div class="lane-body">
+              <div style="display:flex;align-items:center;gap:4px;overflow-x:auto;padding:4px 0 12px;margin-bottom:12px">
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">1</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Dapat profil<br>pasien</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">2</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Identifikasi<br>kebutuhan</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">3</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Buat<br>deliverable</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">4</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Kirim ke<br>audiens</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">5</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Pantau<br>performa</div></div>
+              </div>
+              <div class="ab b"><div class="ab-hd"><span class="ic s">smart_toy</span>Segmen aktif</div><div class="ab-body">23 pasien Silver mendekati threshold Gold. Targetkan dengan reminder + penawaran sesi konsul gratis untuk push naik tier.</div></div>
+              <div style="display:flex;gap:7px;margin-top:10px">
+                <button class="btn pri sm" style="flex:1;justify-content:center"><span class="ic s">send</span>Kirim ke 23 Pasien</button>
+                <button class="btn ghost sm"><span class="ic s">edit</span>Edit segmen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LANES COL 2 -->
+        <div>
+          <!-- LANE 3: REFERRAL-PURPOSED -->
+          <div class="lane" id="lane-referral">
+            <div class="lane-hd" onclick="toggleLane('lane-referral')">
+              <div class="lane-color" style="background:var(--loy)"></div>
+              <div class="lane-ic" style="background:var(--loy-s)"><span class="ic" style="color:var(--loy)">share</span></div>
+              <div>
+                <div class="lane-title">Referral-purposed</div>
+                <div class="lane-desc">Program khusus mendorong member merekomendasikan RS</div>
+              </div>
+              <div class="lane-badge"><span class="bdg loy">142 Referral</span></div>
+              <span class="ic s lane-toggle">expand_more</span>
+            </div>
+            <div class="lane-body">
+              <div style="display:flex;align-items:center;gap:4px;overflow-x:auto;padding:4px 0 12px;margin-bottom:12px">
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--loy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">1</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Dapat insight<br>pasien</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--loy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">2</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Set objective<br>referral</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--loy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">3</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Dapat<br>segment</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--loy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">4</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Formulasi<br>deliverable</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:75px"><div style="width:28px;height:28px;border-radius:50%;background:var(--loy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">5</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Kirim</div></div>
+              </div>
+              <div style="display:flex;gap:12px;margin-bottom:10px">
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">142</div><div class="l">Referral berhasil</div></div>
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--blue)">+28</div><div class="l">Pasien baru</div></div>
+                <div class="mp" style="flex:1"><div class="v">34K</div><div class="l">Poin reward</div></div>
+              </div>
+              <div class="ab loy"><div class="ab-hd"><span class="ic s">star</span>Top Referrer</div><div class="ab-body"><strong>Maya Lestari</strong> — 8 referral sukses · 2.400 poin reward dikirim</div></div>
+            </div>
+          </div>
+
+          <!-- LANE 4: MILESTONE-BASED (BARU) -->
+          <div class="lane" id="lane-milestone">
+            <div class="lane-hd" onclick="toggleLane('lane-milestone')">
+              <div class="lane-color" style="background:var(--green)"></div>
+              <div class="lane-ic" style="background:var(--green-s)"><span class="ic" style="color:var(--green)">celebration</span></div>
+              <div>
+                <div class="lane-title">Milestone-based</div>
+                <div class="lane-desc">Trigger otomatis dari event klinis pasien</div>
+              </div>
+              <div class="lane-badge"><span class="bdg g">89 Bulan Ini</span></div>
+              <span class="ic s lane-toggle">expand_more</span>
+            </div>
+            <div class="lane-body">
+              <div style="display:flex;align-items:center;gap:4px;overflow-x:auto;padding:4px 0 12px;margin-bottom:12px">
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:80px"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">1</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Reminding,<br>educating,<br>rewarding</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:80px"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">2</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Treatment<br>dipantau</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:80px"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">3</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Treatment<br>dipenuhi</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:80px"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">4</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Evaluasi<br>treatment</div></div>
+                <span class="ic s" style="color:var(--line2);margin-bottom:14px">arrow_forward</span>
+                <div style="display:flex;flex-direction:column;align-items:center;min-width:80px"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-bottom:4px">5</div><div style="font-size:11px;font-weight:500;color:var(--t1);text-align:center;line-height:1.3">Treatment<br>dilanjutkan</div></div>
+              </div>
+              <div style="font-size:11.5px;font-weight:600;color:var(--t3);margin-bottom:8px">Trigger Aktif</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r8);background:var(--green-s);border:1px solid var(--green-m)">
+                  <span class="ic s" style="color:var(--green)">pregnant_woman</span>
+                  <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--green)">ANC Selesai Semua Trimester</div><div style="font-size:11px;color:var(--t3)">→ 200 poin bonus · 34 pasien minggu ini</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r8);background:var(--green-s);border:1px solid var(--green-m)">
+                  <span class="ic s" style="color:var(--green)">child_care</span>
+                  <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--green)">Imunisasi On-Schedule 1 Tahun</div><div style="font-size:11px;color:var(--t3)">→ 500 poin + badge · 12 bayi bulan ini</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r8);background:var(--blue-s);border:1px solid var(--blue-m)">
+                  <span class="ic s" style="color:var(--blue)">cake</span>
+                  <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--blue)">Ulang Tahun Bayi 1 Tahun</div><div style="font-size:11px;color:var(--t3)">→ Pesan selamat + 100 poin · 8 bayi bulan ini</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r8);background:var(--amber-s);border:1px solid var(--amber-m)">
+                  <span class="ic s" style="color:var(--amber)">schedule</span>
+                  <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--amber)">HPL -30 Hari</div><div style="font-size:11px;color:var(--t3)">→ Reminder persalinan + booking kamar · 18 bumil</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         6. KOMUNITAS
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-community">
+      <div class="ph">
+        <div class="ph-text"><h2>Komunitas</h2><p>Kelola komunitas pasien — sumber insight organik dan channel akuisisi terkuat.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">group_add</span>Buat Komunitas Baru</button></div>
+      </div>
+      <div class="kstrip k4">
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">groups</span></div><div class="kcard-lbl">Total Komunitas</div><div class="kcard-v">12</div><div class="kcard-d up"><span class="ic s">add_circle</span>+4 bulan ini</div></div>
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">person</span></div><div class="kcard-lbl">Total Anggota</div><div class="kcard-v">1.8K</div><div class="kcard-d up"><span class="ic s">trending_up</span>+124 bulan ini</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">forum</span></div><div class="kcard-lbl">Diskusi Aktif</div><div class="kcard-v">48</div><div class="kcard-d fl">Minggu ini</div></div>
+        <div class="kcard kl"><div class="kcard-ic"><span class="ic">insights</span></div><div class="kcard-lbl">Insight ke Studio</div><div class="kcard-v">7</div><div class="kcard-d up">Ditindaklanjuti</div></div>
+      </div>
+
+      <!-- COMMUNITY TABS -->
+      <div class="tabs" id="comm-tabs">
+        <button class="tab on" onclick="communityTab(this,'ct-semua')"><span class="ic s">grid_view</span>Semua</button>
+        <button class="tab" onclick="communityTab(this,'ct-bumil')"><span class="ic s">pregnant_woman</span>Bumil T3 <span style="background:var(--green);color:#fff;padding:1px 6px;border-radius:var(--rf);font-size:10px;font-weight:700;margin-left:4px">124</span></button>
+        <button class="tab" onclick="communityTab(this,'ct-alumni')"><span class="ic s">favorite</span>Alumni Persalinan</button>
+        <button class="tab" onclick="communityTab(this,'ct-parenting')"><span class="ic s">child_care</span>Parenting Club</button>
+        <button class="tab" onclick="communityTab(this,'ct-imunisasi')"><span class="ic s">vaccines</span>Imunisasi</button>
+      </div>
+
+      <!-- TAB: SEMUA KOMUNITAS -->
+      <div id="ct-semua" class="comm-panel cp-on">
+        <div class="g21">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Semua Komunitas</div><div class="card-sub">Create → Manager → Launching → Manage → Reporting</div></div><button class="btn pri sm"><span class="ic s">add</span>Buat Baru</button></div>
+            <table class="tbl">
+              <thead><tr><th>Komunitas</th><th>Anggota</th><th>Diskusi</th><th>Engagement</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><div class="td1">Bumil Trimester 3</div><div class="td2">Dipandu: Bidan Sri</div></td><td>124</td><td>18</td><td><div style="width:60px"><div class="bar"><div class="bf bfg" style="width:82%"></div></div><div style="font-size:10px;color:var(--t3);margin-top:2px">82%</div></div></td><td><span class="bdg g"><span class="pdot"></span>Aktif</span></td><td><button class="btn ghost xs ico"><span class="ic s">more_vert</span></button></td></tr>
+                <tr><td><div class="td1">Alumni Persalinan RS Ananda</div><div class="td2">Dipandu: Admin</div></td><td>287</td><td>11</td><td><div style="width:60px"><div class="bar"><div class="bf bfb" style="width:64%"></div></div><div style="font-size:10px;color:var(--t3);margin-top:2px">64%</div></div></td><td><span class="bdg g"><span class="pdot"></span>Aktif</span></td><td><button class="btn ghost xs ico"><span class="ic s">more_vert</span></button></td></tr>
+                <tr><td><div class="td1">Parenting Club 0–2 Tahun</div><div class="td2">Dipandu: dr. Rina</div></td><td>418</td><td>24</td><td><div style="width:60px"><div class="bar"><div class="bf bfg" style="width:91%"></div></div><div style="font-size:10px;color:var(--t3);margin-top:2px">91%</div></div></td><td><span class="bdg g"><span class="pdot"></span>Aktif</span></td><td><button class="btn ghost xs ico"><span class="ic s">more_vert</span></button></td></tr>
+                <tr><td><div class="td1">Imunisasi Tracker Parents</div><div class="td2">Dipandu: Bidan Ani</div></td><td>196</td><td>8</td><td><div style="width:60px"><div class="bar"><div class="bf bfa" style="width:47%"></div></div><div style="font-size:10px;color:var(--t3);margin-top:2px">47%</div></div></td><td><span class="bdg b">Launching</span></td><td><button class="btn ghost xs ico"><span class="ic s">more_vert</span></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Sinyal ke Studio</div></div></div>
+              <div class="ab loy"><div class="ab-hd">Topik tren: MPASI +48%</div><div class="ab-body">Diskusi MPASI meningkat pesat di Parenting Club. Mau Sinteta buat program edukasi + reward poin?</div></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">auto_awesome</span>Buat Program</button><button class="btn ghost">Nanti</button></div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Diskusi Terpanas</div></div><span class="bdg g"><span class="pdot"></span>Live</span></div>
+              <div class="fbrow"><div class="fbav" style="background:var(--loy-s);color:var(--loy)">SR</div><div style="flex:1"><div class="fb-name">Bu Sari · Bumil T3</div><div class="fb-text">"Ada yang sudah siapkan tas persalinan?"</div><div class="fb-chips"><span class="chip loy">Persalinan</span></div><div class="fb-time">2j lalu · 12 balasan</div></div></div>
+              <div class="fbrow"><div class="fbav" style="background:var(--green-s);color:var(--green)">RA</div><div style="flex:1"><div class="fb-name">Bu Rina · Parenting Club</div><div class="fb-text">"Tips MPASI pertama bayi 6 bulan?"</div><div class="fb-chips"><span class="chip p">MPASI</span></div><div class="fb-time">4j lalu · 24 balasan</div></div></div>
+              <div class="fbrow"><div class="fbav" style="background:var(--blue-s);color:var(--blue)">DW</div><div style="flex:1"><div class="fb-name">Bu Dewi · Alumni Persalinan</div><div class="fb-text">"RS Ananda recommended banget, bayi saya lahir di sini juga!"</div><div class="fb-chips"><span class="chip p">Testimoni</span></div><div class="fb-time">6j lalu · 8 balasan</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: BUMIL T3 -->
+      <div id="ct-bumil" class="comm-panel">
+        <div class="g21">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Bumil Trimester 3</div><div class="card-sub">124 anggota · Dipandu Bidan Sri Wahyuni</div></div><div class="card-hd-r"><span class="bdg g"><span class="pdot"></span>Aktif</span><button class="btn ghost sm"><span class="ic s">settings</span>Kelola</button></div></div>
+            <div style="display:flex;gap:10px;margin-bottom:14px">
+              <div class="mp" style="flex:1"><div class="v">124</div><div class="l">Anggota aktif</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">82%</div><div class="l">Engagement rate</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--blue)">18</div><div class="l">Diskusi minggu ini</div></div>
+            </div>
+            <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title" style="font-size:12px">Diskusi Aktif</div></div></div>
+            <div class="fbrow"><div class="fbav" style="background:var(--loy-s);color:var(--loy)">SR</div><div style="flex:1"><div class="fb-name">Bu Sari</div><div class="fb-text">"Ada yang sudah siapkan tas persalinan? Kira-kira apa saja yang wajib dibawa?"</div><div class="fb-time">2j lalu · <strong>12 balasan</strong></div></div></div>
+            <div class="fbrow"><div class="fbav" style="background:#FEF3C7;color:#92400E">NY</div><div style="flex:1"><div class="fb-name">Bu Novi</div><div class="fb-text">"Minggu depan ANC ke-4, ada yang mau bareng ke RS Ananda?"</div><div class="fb-time">5j lalu · 6 balasan</div></div></div>
+            <div class="fbrow"><div class="fbav" style="background:var(--green-s);color:var(--green)">AM</div><div style="flex:1"><div class="fb-name">Bu Amel</div><div class="fb-text">"Sharing: teknik pernapasan saat kontraksi yang diajarkan Bidan Sri sangat membantu!"</div><div class="fb-time">Kemarin · 18 balasan</div></div></div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Adherence anggota</div><div class="card-sub">Komunitas vs non-komunitas</div></div></div>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Anggota komunitas</span><span style="font-weight:600;color:var(--green)">91%</span></div><div class="bar"><div class="bf bfg" style="width:91%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Non-anggota komunitas</span><span style="font-weight:600;color:var(--amber)">68%</span></div><div class="bar"><div class="bf bfa" style="width:68%"></div></div></div>
+              </div>
+              <div class="ab g" style="margin-top:10px"><div class="ab-hd"><span class="ic s">trending_up</span>+23 poin adherence</div><div class="ab-body">Anggota komunitas Bumil T3 memiliki adherence ANC 23% lebih tinggi dari non-anggota.</div></div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Topik tren minggu ini</div></div></div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="background:var(--loy-s);border:1px solid var(--loy-m);color:var(--loy);padding:3px 9px;border-radius:var(--rf);font-size:11.5px;font-weight:600">🔥 Tas persalinan</span>
+                <span style="background:var(--srf2);border:1px solid var(--line);color:var(--t2);padding:3px 9px;border-radius:var(--rf);font-size:11.5px">ANC bersama</span>
+                <span style="background:var(--srf2);border:1px solid var(--line);color:var(--t2);padding:3px 9px;border-radius:var(--rf);font-size:11.5px">Teknik pernapasan</span>
+                <span style="background:var(--loy-s);border:1px solid var(--loy-m);color:var(--loy);padding:3px 9px;border-radius:var(--rf);font-size:11.5px;font-weight:600">🔥 Persiapan HPL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: ALUMNI PERSALINAN -->
+      <div id="ct-alumni" class="comm-panel">
+        <div class="g21">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Alumni Persalinan RS Ananda</div><div class="card-sub">287 anggota · Ibu pasca melahirkan di RS Ananda</div></div><span class="bdg g"><span class="pdot"></span>Aktif</span></div>
+            <div style="display:flex;gap:10px;margin-bottom:14px">
+              <div class="mp" style="flex:1"><div class="v">287</div><div class="l">Anggota</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--blue)">64%</div><div class="l">Engagement</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--loy)">42</div><div class="l">Referral dari komunitas</div></div>
+            </div>
+            <div class="fbrow"><div class="fbav" style="background:var(--blue-s);color:var(--blue)">DW</div><div style="flex:1"><div class="fb-name">Bu Dewi</div><div class="fb-text">"RS Ananda recommended banget! Bidan Sri sangat sabar dan profesional."</div><div class="fb-chips"><span class="chip p">Testimoni</span></div><div class="fb-time">6j lalu · 8 balasan</div></div></div>
+            <div class="fbrow"><div class="fbav" style="background:var(--green-s);color:var(--green)">ML</div><div style="flex:1"><div class="fb-name">Bu Maya</div><div class="fb-text">"Sudah 3 bulan pasca lahir, kontrol post-partum di RS Ananda lancar. Dokternya informatif."</div><div class="fb-chips"><span class="chip p">Post-partum</span></div><div class="fb-time">Kemarin · 5 balasan</div></div></div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Referral dari komunitas</div></div></div>
+              <div style="display:flex;gap:10px">
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">42</div><div class="l">Referral berhasil</div></div>
+                <div class="mp" style="flex:1"><div class="v" style="color:var(--blue)">+12</div><div class="l">Pasien baru</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Insight Sinteta</div></div></div>
+              <div class="ab loy"><div class="ab-hd">Peluang win-back</div><div class="ab-body">18 anggota alumni belum kunjungan kontrol post-partum. Mau Sinteta buat outreach personal + reward kunjungan?</div></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">send</span>Kirim Outreach</button><button class="btn ghost">Nanti</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PARENTING CLUB -->
+      <div id="ct-parenting" class="comm-panel">
+        <div class="g21">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Parenting Club 0–2 Tahun</div><div class="card-sub">418 anggota · Komunitas terbesar · Engagement 91%</div></div><span class="bdg g"><span class="pdot"></span>Aktif</span></div>
+            <div style="display:flex;gap:10px;margin-bottom:14px">
+              <div class="mp" style="flex:1"><div class="v">418</div><div class="l">Anggota</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">91%</div><div class="l">Engagement tertinggi</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--amber)">24</div><div class="l">Diskusi minggu ini</div></div>
+            </div>
+            <div class="fbrow"><div class="fbav" style="background:var(--green-s);color:var(--green)">RA</div><div style="flex:1"><div class="fb-name">Bu Rina</div><div class="fb-text">"Tips MPASI pertama untuk bayi 6 bulan? Bingung mulai dari mana."</div><div class="fb-chips"><span class="chip p">MPASI</span></div><div class="fb-time">4j lalu · <strong>24 balasan</strong></div></div></div>
+            <div class="fbrow"><div class="fbav" style="background:#FEF3C7;color:#92400E">HS</div><div style="flex:1"><div class="fb-name">Bu Hani</div><div class="fb-text">"Imunisasi DPT ke-3 anak saya besok, ada tips supaya tidak rewel?"</div><div class="fb-chips"><span class="chip loy">Imunisasi</span></div><div class="fb-time">8j lalu · 14 balasan</div></div></div>
+            <div class="fbrow"><div class="fbav" style="background:var(--blue-s);color:var(--blue)">FS</div><div style="flex:1"><div class="fb-name">Bu Fitri</div><div class="fb-text">"Rekomendasi dokter anak di RS Ananda yang sabar untuk bayi 1 tahun?"</div><div class="fb-chips"><span class="chip p">Dokter</span></div><div class="fb-time">Kemarin · 11 balasan</div></div></div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Sinteta deteksi peluang</div></div></div>
+              <div class="ab loy" style="margin-bottom:8px"><div class="ab-hd">MPASI trending — buat edukasi</div><div class="ab-body">Diskusi MPASI +48% minggu ini. Rekomendasi: buat konten edukasi MPASI dari dr. Rina + reward poin bagi yang hadir webinar.</div></div>
+              <div class="ab b"><div class="ab-hd">Imunisasi reminder opportunity</div><div class="ab-body">34 anggota memiliki bayi yang jadwal imunisasinya dalam 14 hari. Mau kirim reminder + reward?</div></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">auto_awesome</span>Buat Program</button><button class="btn ghost">Nanti</button></div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Topik tren</div></div></div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="background:var(--loy-s);border:1px solid var(--loy-m);color:var(--loy);padding:3px 9px;border-radius:var(--rf);font-size:11.5px;font-weight:600">🔥 MPASI</span>
+                <span style="background:var(--loy-s);border:1px solid var(--loy-m);color:var(--loy);padding:3px 9px;border-radius:var(--rf);font-size:11.5px;font-weight:600">🔥 Imunisasi DPT</span>
+                <span style="background:var(--srf2);border:1px solid var(--line);color:var(--t2);padding:3px 9px;border-radius:var(--rf);font-size:11.5px">Rekomendasi dokter</span>
+                <span style="background:var(--srf2);border:1px solid var(--line);color:var(--t2);padding:3px 9px;border-radius:var(--rf);font-size:11.5px">Tumbuh kembang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: IMUNISASI -->
+      <div id="ct-imunisasi" class="comm-panel">
+        <div class="g21">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Imunisasi Tracker Parents</div><div class="card-sub">196 anggota · Baru launching · Status: onboarding</div></div><span class="bdg b">Launching</span></div>
+            <div style="display:flex;gap:10px;margin-bottom:14px">
+              <div class="mp" style="flex:1"><div class="v">196</div><div class="l">Anggota</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--amber)">47%</div><div class="l">Engagement (naik)</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--blue)">8</div><div class="l">Diskusi minggu ini</div></div>
+            </div>
+            <!-- Launching flow -->
+            <div style="font-size:11.5px;font-weight:600;color:var(--t2);margin-bottom:9px">Status Launching</div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+              <div style="padding:6px 11px;border-radius:var(--r8);background:var(--green-s);border:1px solid var(--green-m);font-size:12px;font-weight:600;color:var(--green)"><span class="ic s">check</span> Create Community</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="padding:6px 11px;border-radius:var(--r8);background:var(--green-s);border:1px solid var(--green-m);font-size:12px;font-weight:600;color:var(--green)"><span class="ic s">check</span> Community Manager</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="padding:6px 11px;border-radius:var(--r8);background:var(--blue-s);border:1px solid var(--blue-m);font-size:12px;font-weight:700;color:var(--blue)"><span class="ic s">pending</span> Launching</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="padding:6px 11px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t3)">Manage</div>
+              <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+              <div style="padding:6px 11px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t3)">Reporting</div>
+            </div>
+            <div class="fbrow"><div class="fbav" style="background:var(--green-s);color:var(--green)">HS</div><div style="flex:1"><div class="fb-name">Bu Hani</div><div class="fb-text">"Senang ada komunitas ini! Jadi bisa tracking jadwal imunisasi si kecil lebih mudah."</div><div class="fb-time">1j lalu · 3 balasan</div></div></div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title">Target 30 hari launching</div></div></div>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Target anggota (250)</span><span style="font-weight:600;color:var(--blue)">196/250</span></div><div class="bar"><div class="bf bfb" style="width:78%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Target engagement (60%)</span><span style="font-weight:600;color:var(--amber)">47%</span></div><div class="bar"><div class="bf bfa" style="width:47%"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Sisa hari</span><span style="font-weight:600;color:var(--t2)">8 hari</span></div><div class="bar"><div class="bf bfn" style="width:27%"></div></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> Saran Sinteta</div></div></div>
+              <div class="ab loy"><div class="ab-hd">Percepat onboarding anggota</div><div class="ab-body">Kirim WA blast ke 89 pasien dengan bayi 0–12 bulan yang belum bergabung. Tawarkan 50 poin selamat datang. Estimasi +54 anggota baru.</div></div>
+              <div style="display:flex;gap:7px;margin-top:9px"><button class="btn pri sm" style="flex:1;justify-content:center"><span class="ic s">send</span>Kirim Undangan</button><button class="btn ghost sm">Preview</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         7. INTELIJEN PASAR
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-market">
+      <div class="ph">
+        <div class="ph-text"><h2>Intelijen Pasar</h2><p>Data pasar, kompetitor, dan peluang strategis — otomatis dari Sinteta.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">refresh</span>Refresh Insight</button></div>
+      </div>
+      <div class="kstrip k4">
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">trending_up</span></div><div class="kcard-lbl">Market Share</div><div class="kcard-v">34<small>%</small></div><div class="kcard-d up">RS Ibu &amp; Anak Makassar</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">star</span></div><div class="kcard-lbl">Reputation Score</div><div class="kcard-v">4.8<small>/5</small></div><div class="kcard-d up"><span class="ic s">arrow_upward</span>Tertinggi di segmen</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">business</span></div><div class="kcard-lbl">Kompetitor Dipantau</div><div class="kcard-v">6</div><div class="kcard-d fl">Active monitoring</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">newspaper</span></div><div class="kcard-lbl">Industry Signals</div><div class="kcard-v">3</div><div class="kcard-d up">Tren relevan</div></div>
+      </div>
+      <div class="g21">
+        <div class="col">
+          <!-- GET DATA FLOW -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Get Data</div><div class="card-sub">Market, Consumer &amp; Industry · Academic Findings</div></div><span class="bdg b">Auto-collect</span></div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div class="ab b"><div class="ab-hd"><span class="ic s">trending_up</span>Telemedicine ANC — +24% YoY</div><div class="ab-body">Minat konsultasi ANC online naik 38% di Makassar. Nuans bisa jadi kanal langsung.</div></div>
+              <div class="ab m"><div class="ab-hd"><span class="ic s">pregnant_woman</span>Paket Wellness Pasca Lahir</div><div class="ab-body">RS Bunda Makassar baru luncurkan paket post-partum. Potensi Rp 15–25 jt/pasien via Nuans.</div></div>
+              <div class="ab b"><div class="ab-hd"><span class="ic s">hub</span>Komunitas Ibu Digital +45%</div><div class="ab-body">Grup parenting Makassar sangat aktif. Nuans community = kanal akuisisi organik.</div></div>
+            </div>
+          </div>
+          <!-- BENCHMARKING -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Service Benchmarking</div></div><span class="bdg b">6 Peers</span></div>
+            <table class="tbl"><thead><tr><th>#</th><th>RS</th><th>Rating</th><th>Loyalty</th></tr></thead><tbody>
+              <tr><td style="color:var(--t3);font-weight:700">★</td><td><div class="td1" style="color:var(--blue)">RS Ibu &amp; Anak Ananda</div><div class="td2">Nuans aktif</div></td><td style="color:var(--green);font-weight:700">4.8</td><td><span class="bdg loy">Nuans</span></td></tr>
+              <tr><td style="color:var(--t3);font-weight:700">2</td><td><div class="td1">RS Bunda Makassar</div></td><td style="color:var(--amber);font-weight:700">4.5</td><td><span class="bdg n">Sendiri</span></td></tr>
+              <tr><td style="color:var(--t3);font-weight:700">3</td><td><div class="td1">RSIA Siti Fatimah</div></td><td style="font-weight:700">4.2</td><td><span class="bdg n">Tidak ada</span></td></tr>
+              <tr><td style="color:var(--t3);font-weight:700">4</td><td><div class="td1">Klinik Kartini</div></td><td style="font-weight:700">4.1</td><td><span class="bdg n">Tidak ada</span></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+        <div class="col">
+          <!-- KEY INSIGHT + ESKALASI -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Key Insight → Aksi</div></div></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="padding:12px 14px;border-radius:var(--r12);border:1px solid var(--loy-m);background:var(--loy-s)">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div style="font-size:12.5px;font-weight:600;color:var(--loy)">Peluang: Telemedicine ANC</div>
+                  <div style="margin-left:auto;display:flex;gap:5px">
+                    <button class="btn xs" style="border-color:var(--loy);color:var(--loy)"><span class="ic s">auto_awesome</span>→ Studio</button>
+                    <button class="btn xs" style="border-color:var(--loy);color:var(--loy)"><span class="ic s">campaign</span>→ Promosi</button>
+                  </div>
+                </div>
+                <div style="font-size:12px;color:var(--t2);line-height:1.5">Aktifkan fitur konsultasi online di Nuans App. Potensi 200+ pasien baru/bulan.</div>
+              </div>
+              <div style="padding:12px 14px;border-radius:var(--r12);border:1px solid var(--amber-m);background:var(--amber-s)">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div style="font-size:12.5px;font-weight:600;color:var(--amber)">Ancaman: Kompetitor Post-Partum</div>
+                  <div style="margin-left:auto">
+                    <button class="btn xs" style="border-color:var(--amber);color:var(--amber)"><span class="ic s">auto_awesome</span>→ Studio</button>
+                  </div>
+                </div>
+                <div style="font-size:12px;color:var(--t2);line-height:1.5">RS Bunda luncurkan paket post-partum. Buat paket serupa via Nuans Subscription sebelum mereka take market share.</div>
+              </div>
+            </div>
+          </div>
+          <!-- PROMOSI OUTPUT -->
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">→ Promosi &amp; Edukasi</div></div><button class="btn ghost sm" onclick="go(document.querySelectorAll('.ni')[10],'promotion')"><span class="ic s">open_in_new</span>Buka</button></div>
+            <div class="ab b"><div class="ab-hd"><span class="ic s">campaign</span>3 Campaign Disarankan dari Insight Ini</div><div class="ab-body">Sinteta sudah menyiapkan brief untuk: (1) Telemedicine ANC campaign, (2) Paket Post-Partum launch, (3) Komunitas Digital bumil Makassar.</div></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Industry Shift Feed</div></div></div>
+            <div class="fbrow"><div style="width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:5px;flex-shrink:0"></div><div style="flex:1;padding-left:7px"><div style="font-size:11px;font-weight:600;color:var(--blue);margin-bottom:1px">Technology</div><div style="font-size:12.5px;font-weight:600;color:var(--t1)">Health Cloud Adoption 60%</div><div style="font-size:12px;color:var(--t2)">Centralized data enabling faster cross-referrals.</div></div></div>
+            <div class="fbrow"><div style="width:7px;height:7px;border-radius:50%;background:var(--amber);margin-top:5px;flex-shrink:0"></div><div style="flex:1;padding-left:7px"><div style="font-size:11px;font-weight:600;color:var(--amber);margin-bottom:1px">Innovation</div><div style="font-size:12.5px;font-weight:600;color:var(--t1)">AI-Based Triage — 30% ER wait reduction</div><div style="font-size:12px;color:var(--t2)">Pilot programs showing high patient acceptance.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         8. PROMOSI & EDUKASI
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-promotion">
+      <div class="ph">
+        <div class="ph-text"><h2>Promosi &amp; Edukasi Massal</h2><p>Produksi dan distribusi konten kesehatan ke audiens yang tepat, di waktu yang tepat.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">add_circle</span>Campaign Baru</button></div>
+      </div>
+      <div class="kstrip k3">
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">visibility</span></div><div class="kcard-lbl">Total Reach</div><div class="kcard-v">1.2M</div><div class="kcard-d up"><span class="ic s">trending_up</span>+12.4% MoM</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">touch_app</span></div><div class="kcard-lbl">Engagement Rate</div><div class="kcard-v">4.8<small>%</small></div><div class="kcard-d up">Above avg</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">campaign</span></div><div class="kcard-lbl">Campaign Aktif</div><div class="kcard-v">3</div><div class="kcard-d up"><span class="pdot"></span>Live</div></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Campaign Aktif</div></div><button class="btn pri sm"><span class="ic s">add</span>Buat</button></div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border:1px solid var(--line);border-radius:var(--r12);padding:13px 15px;display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:13px;font-weight:600;color:var(--t1)">Jantung Sehat 2024</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Edukasi pencegahan dini penyakit jantung koroner usia 40+</div></div><span class="bdg g"><span class="pdot"></span>Live</span></div>
+              <div style="display:flex;gap:14px"><div><div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase">Bookings</div><div style="font-size:13px;font-weight:600;color:var(--green)">124</div></div><div><div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase">Reach</div><div style="font-size:13px;font-weight:600;color:var(--t1)">450K</div></div><div><div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase">Goal</div><div style="font-size:13px;font-weight:600;color:var(--t1)">Awareness</div></div></div>
+            </div>
+            <div style="border:1px solid var(--line);border-radius:var(--r12);padding:13px 15px;display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:13px;font-weight:600;color:var(--t1)">Ibu Cerdas, Bayi Sehat</div><div style="font-size:11.5px;color:var(--t3);margin-top:1px">Promosi paket persalinan premium &amp; edukasi laktasi</div></div><span class="bdg a">Production</span></div>
+              <div style="display:flex;gap:14px"><div><div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase">ETA</div><div style="font-size:13px;font-weight:600;color:var(--t1)">1 Jun</div></div><div><div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase">Budget</div><div style="font-size:13px;font-weight:600;color:var(--t1)">Rp 15M</div></div></div>
+            </div>
+          </div>
+          <hr class="div"/>
+          <!-- Promosi Flow -->
+          <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title">Flow Produksi Konten</div></div></div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--blue-s);border:1px solid var(--blue-m);font-size:12px;font-weight:600;color:var(--blue)">1. Identifikasi Penerima</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">2. Profiling Penerima</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">3. Buat Deliverable</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">4. Pilih Media</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">5. Kirim ke Audiens</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">6. Pantau Performa</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title"><span class="ic s" style="color:var(--loy)">smart_toy</span> AI Recommendation</div></div></div>
+            <div class="ab loy"><div class="ab-hd">Konten Disarankan</div><div class="ab-body">Banyak keluhan antrean Poli Jantung. Buat: <strong>"Cara Daftar Online dari Rumah"</strong> — prediksi engagement 2.4×.</div></div>
+            <button class="btn pri" style="width:100%;justify-content:center;margin-top:9px"><span class="ic s">add</span>Buat Sekarang</button>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Orkestrasi Multi-Channel</div></div></div>
+            <table class="tbl"><thead><tr><th>Konten</th><th>Channel</th><th>Status</th></tr></thead><tbody>
+              <tr><td><div class="td1">Tips Jantung Sehat</div><div class="td2">Video 0:58</div></td><td>Instagram</td><td><span class="bdg b">Scheduled</span></td></tr>
+              <tr><td><div class="td1">Alur Pendaftaran Online</div><div class="td2">Carousel</div></td><td>Facebook</td><td><span class="bdg a">Draft</span></td></tr>
+              <tr><td><div class="td1">Jadwal MCU Akhir Tahun</div><div class="td2">Diskon 20%</div></td><td>WA Blast</td><td><span class="bdg g">Ready</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Loop dari Intelligence Pasar</div></div></div>
+            <div class="ab b"><div class="ab-hd"><span class="ic s">insights</span>3 Peluang dari Intelijen Pasar</div><div class="ab-body">Telemedicine ANC, Post-Partum Package, Komunitas Bumil Digital — sudah siap jadi campaign. Klik untuk buka brief.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         9. SERVICE PERFORMANCE
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-performance">
+      <div class="ph">
+        <div class="ph-text"><h2>Service Performance</h2><p>Monitor performa layanan — dari data SIMRS ke insight Sinteta.</p></div>
+        <div class="ph-act"><button class="btn ghost"><span class="ic s">file_download</span>Export Report</button><button class="btn pri"><span class="ic s">send</span>Send Report</button></div>
+      </div>
+      <div class="kstrip k4">
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">percent</span></div><div class="kcard-lbl">Overall Efficiency</div><div class="kcard-v">88<small>%</small></div><div class="kcard-d up"><span class="ic s">trending_up</span>+2.4% vs last week</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">speed</span></div><div class="kcard-lbl">Avg Wait Time</div><div class="kcard-v">14<small>min</small></div><div class="kcard-d up">-3 min vs target</div></div>
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">inventory_2</span></div><div class="kcard-lbl">Resource Utilization</div><div class="kcard-v">92<small>%</small></div><div class="kcard-d up">Di atas target 90%</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">bed</span></div><div class="kcard-lbl">BOR</div><div class="kcard-v">76<small>%</small></div><div class="kcard-d fl">Target: 80%</div></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Flow: Get Data → Analysis → Clustering Insights → Report → Send</div></div></div>
+          <table class="tbl"><thead><tr><th>Departemen</th><th>Wait vs Target</th><th>Throughput</th><th>Staffing</th><th>Status</th></tr></thead><tbody>
+            <tr><td class="td1">Emergency Room (IGD)</td><td style="color:var(--red);font-weight:600">↑ +8 min Over</td><td>42/jam</td><td style="color:var(--amber)">Strained 88%</td><td><span class="bdg r">Kritis</span></td></tr>
+            <tr><td class="td1">ICU / HCU</td><td style="color:var(--green);font-weight:600">✓ On Target</td><td>8/hari</td><td style="color:var(--green)">Optimal 95%</td><td><span class="bdg g">Optimal</span></td></tr>
+            <tr><td class="td1">Rawat Jalan (Poli)</td><td style="color:var(--green);font-weight:600">↓ -1 min Under</td><td>115/hari</td><td style="color:var(--amber)">Surplus 65%</td><td><span class="bdg a">Monitor</span></td></tr>
+            <tr><td class="td1">Radiologi</td><td>On Target</td><td>18 scan/jam</td><td style="color:var(--green)">Optimal 91%</td><td><span class="bdg g">Optimal</span></td></tr>
+          </tbody></table>
+        </div>
+        <div class="col">
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">SOP Compliance</div></div></div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Infection Control</span><span style="font-weight:600;color:var(--green)">98%</span></div><div class="bar"><div class="bf bfg" style="width:98%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Patient Safety</span><span style="font-weight:600;color:var(--green)">91%</span></div><div class="bar"><div class="bf bfg" style="width:91%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Drug Administration</span><span style="font-weight:600;color:var(--amber)">84%</span></div><div class="bar"><div class="bf bfa" style="width:84%"></div></div></div>
+            </div>
+          </div>
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Clustering Insights</div></div><span class="bdg b">Sinteta</span></div>
+            <div class="ab b"><div class="ab-hd"><span class="ic s">smart_toy</span>3 Pola Terdeteksi</div><div class="ab-body">IGD strained Senin–Rabu pukul 09–11. Farmasi overload hari Jumat. Radiologi perlu rotasi staf pukul 13–15.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         10. FINANCE & REVENUE
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-finance">
+      <div class="ph">
+        <div class="ph-text"><h2>Finance &amp; Revenue</h2><p>Pantau kesehatan finansial RS dan dampak program loyalitas terhadap revenue.</p></div>
+        <div class="ph-act"><button class="btn ghost"><span class="ic s">file_download</span>Export</button></div>
+      </div>
+      <div class="kstrip k4">
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">payments</span></div><div class="kcard-lbl">Revenue Bulan Ini</div><div class="kcard-v">2.4<small>M</small></div><div class="kcard-d up"><span class="ic s">trending_up</span>+8.2% vs bulan lalu</div></div>
+        <div class="kcard kl"><div class="kcard-ic"><span class="ic">volunteer_activism</span></div><div class="kcard-lbl">Revenue dari Loyalty</div><div class="kcard-v">48<small>Jt</small></div><div class="kcard-d up"><span class="ic s">trending_up</span>+12% MRR subscription</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">receipt_long</span></div><div class="kcard-lbl">Avg. Revenue/Pasien</div><div class="kcard-v">1.8<small>Jt</small></div><div class="kcard-d up">+18% member vs non-member</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">toll</span></div><div class="kcard-lbl">Poin Beredar</div><div class="kcard-v">284K</div><div class="kcard-d fl">Redemption rate 34%</div></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Revenue Breakdown</div></div></div>
+          <table class="tbl"><thead><tr><th>Sumber</th><th>Bulan Ini</th><th>vs Bulan Lalu</th></tr></thead><tbody>
+            <tr><td class="td1">Pelayanan Rawat Jalan</td><td style="font-weight:600">Rp 1.2M</td><td style="color:var(--green)">+6%</td></tr>
+            <tr><td class="td1">Rawat Inap</td><td style="font-weight:600">Rp 680Jt</td><td style="color:var(--green)">+4%</td></tr>
+            <tr><td class="td1">Subscription Nuans</td><td style="font-weight:600;color:var(--loy)">Rp 48Jt</td><td style="color:var(--green)">+12%</td></tr>
+            <tr><td class="td1">Laboratorium &amp; Imaging</td><td style="font-weight:600">Rp 320Jt</td><td style="color:var(--green)">+9%</td></tr>
+            <tr><td class="td1">Farmasi</td><td style="font-weight:600">Rp 152Jt</td><td style="color:var(--red)">-2%</td></tr>
+          </tbody></table>
+        </div>
+        <div class="col">
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Dampak Loyalty ke Revenue</div></div></div>
+            <div style="display:flex;gap:10px;margin-bottom:10px">
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--loy)">+18%</div><div class="l">Revenue/pasien member vs non-member</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">3.2×</div><div class="l">Frekuensi kunjungan Gold vs Basic</div></div>
+            </div>
+            <div class="ab loy"><div class="ab-hd"><span class="ic s">smart_toy</span>Sinteta memprediksi</div><div class="ab-body">Jika 50 member Basic naik ke Silver bulan ini, revenue bertambah estimasi Rp 12–18 jt dari kunjungan tambahan.</div></div>
+          </div>
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Clustering Insights</div></div><span class="bdg b">Auto</span></div>
+            <div class="ab b"><div class="ab-hd"><span class="ic s">auto_graph</span>Pola Revenue Terdeteksi</div><div class="ab-body">Farmasi turun -2% — korelasi dengan keluhan resep salah minggu lalu. Butuh audit protokol farmasi.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         11. SOP & UPDATE
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-sop">
+      <div class="ph">
+        <div class="ph-text"><h2>SOP &amp; Update</h2><p>Kelola protokol klinis, distribusikan update, dan pantau kepatuhan.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">add</span>Input SOP Baru</button></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">SOP &amp; Panduan</div></div></div>
+          <div class="sop-row"><div class="sop-ic" style="background:#DBEAFE"><span class="ic" style="color:#1D4ED8">description</span></div><div><div class="sop-title">Protokol Penanganan Stroke Akut v2.1</div><div class="sop-meta">Update: 12 Okt 2023</div></div><div class="sop-act"><span class="bdg g">Active</span><button class="btn ghost ico sm"><span class="ic s">download</span></button><button class="btn ghost ico sm"><span class="ic s">edit</span></button></div></div>
+          <div class="sop-row"><div class="sop-ic" style="background:var(--amber-s)"><span class="ic" style="color:var(--amber)">warning</span></div><div><div class="sop-title">Sterilisasi Alat Bedah Sentral</div><div class="sop-meta">Expired 04 Jan 2023 · perlu update</div></div><div class="sop-act"><span class="bdg r">Update Required</span><button class="btn ghost ico sm"><span class="ic s">edit</span></button></div></div>
+          <div class="sop-row"><div class="sop-ic" style="background:var(--green-s)"><span class="ic" style="color:var(--green)">health_and_safety</span></div><div><div class="sop-title">Manajemen Triase IGD</div><div class="sop-meta">Update: 20 Sep 2023</div></div><div class="sop-act"><span class="bdg g">Active</span><button class="btn ghost ico sm"><span class="ic s">download</span></button></div></div>
+          <hr style="border:none;border-top:1px solid var(--line);margin:12px 0"/>
+          <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title">Flow SOP Update</div></div></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--blue-s);border:1px solid var(--blue-m);font-size:12px;font-weight:600;color:var(--blue)">1. Input / Update SOP</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">2. Review &amp; Approve</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">3. Bagikan ke Tim</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Kepatuhan SOP per Unit</div></div></div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>IGD</span><span style="font-weight:600;color:var(--green)">92%</span></div><div class="bar"><div class="bf bfg" style="width:92%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>ICU / HCU</span><span style="font-weight:600;color:var(--green)">88%</span></div><div class="bar"><div class="bf bfg" style="width:88%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Rawat Jalan</span><span style="font-weight:600;color:var(--amber)">75%</span></div><div class="bar"><div class="bf bfa" style="width:75%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>Farmasi</span><span style="font-weight:600;color:var(--red)">68%</span></div><div class="bar"><div class="bf bfr" style="width:68%"></div></div></div>
+            </div>
+          </div>
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Academic Intelligence</div></div></div>
+            <div class="ab b" style="margin-bottom:8px"><div class="ab-hd"><span class="ic s">verified</span>98% Match — Oncology</div><div class="ab-body">Efficacy of Targeted Therapy in Early-Stage Gastric Cancer · Univ. Kebangsaan</div></div>
+            <div class="ab b"><div class="ab-hd">82% Match — ER Management</div><div class="ab-body">Optimizing ER Triage using AI-Driven Predictive Analytics · Poltekkes</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         12. INTERNAL VOICE
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-voice">
+      <div class="ph">
+        <div class="ph-text"><h2>Internal Voice</h2><p>Komunikasi, briefing, dan alignment tim medis &amp; manajemen RS.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">add</span>Buat Pengumuman</button></div>
+      </div>
+      <div class="g21">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Critical Alert Feed</div></div><span class="bdg r"><span class="pdot"></span>Live</span></div>
+          <div class="feed k">
+            <div class="f-hd"><span class="bdg r">Emergency</span><span class="f-name">Code Blue — R. Melati 302</span></div>
+            <div class="f-body">Respon cepat tim medis blok B segera ke lokasi.</div>
+          </div>
+          <div class="feed m">
+            <div class="f-hd"><span class="bdg a">System Alert</span><span class="f-src">08:45</span></div>
+            <div class="f-body">Gangguan Server PACS — akses radiologi digital dalam penanganan IT.</div>
+          </div>
+          <div class="feed i">
+            <div class="f-hd"><span class="bdg b">Protocol Update</span><span class="f-src">07:12</span></div>
+            <div class="f-body">Skrining pasien demam wajib melalui zona skrining pintu timur mulai hari ini.</div>
+          </div>
+          <hr style="border:none;border-top:1px solid var(--line);margin:12px 0"/>
+          <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title">Flow Internal Voice</div></div></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--blue-s);border:1px solid var(--blue-m);font-size:12px;font-weight:600;color:var(--blue)">Kumpulkan Suara</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">Analisis</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">Handling</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Daily Briefing</div></div><span class="bdg b">Hari Ini</span></div>
+            <div class="ab b"><div class="ab-hd">Update Klinis Minggu Ini</div><div class="ab-body">Penyegaran protokol keselamatan pasien tahap III dimulai Senin depan. Seluruh nakes wajib hadir.</div></div>
+            <div class="ab m"><div class="ab-hd">Shift Handover</div><div class="ab-body">Volume IGD tinggi (Kuning: 8, Merah: 2). Tim shift siang standby. ICU tersisa 2 bed.</div></div>
+          </div>
+          <div class="card"><div class="card-hd"><div class="card-hd-l"><div class="card-title">Pulse Check Tim</div></div></div>
+            <div style="display:flex;gap:10px">
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--green)">98%</div><div class="l">Attendance</div></div>
+              <div class="mp" style="flex:1"><div class="v" style="color:var(--blue)">85%</div><div class="l">Pemahaman instruksi baru</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         13. KUDOS
+    ══════════════════════════════════════ -->
+    <div class="screen" id="s-kudos">
+      <div class="ph">
+        <div class="ph-text"><h2>Kudos</h2><p>Apresiasi staf, beri reward, dan bangun budaya keunggulan layanan.</p></div>
+        <div class="ph-act"><button class="btn pri"><span class="ic s">military_tech</span>Beri Kudos</button></div>
+      </div>
+      <div class="kstrip k3">
+        <div class="kcard kg"><div class="kcard-ic"><span class="ic">military_tech</span></div><div class="kcard-lbl">Kudos Bulan Ini</div><div class="kcard-v">24</div><div class="kcard-d up"><span class="ic s">trending_up</span>+8 vs bulan lalu</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">card_giftcard</span></div><div class="kcard-lbl">Reward Diberikan</div><div class="kcard-v">12</div><div class="kcard-d up">Total Rp 4.8Jt</div></div>
+        <div class="kcard"><div class="kcard-ic"><span class="ic">groups</span></div><div class="kcard-lbl">Staf Diakui</div><div class="kcard-v">18</div><div class="kcard-d up">Dari 7 unit</div></div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-hd"><div class="card-hd-l"><div class="card-title">Kudos Terbaru</div></div><button class="btn pri sm"><span class="ic s">military_tech</span>Beri Kudos</button></div>
+          <div class="fbrow">
+            <div class="fbav" style="background:#FFF3E0;color:#E65100"><span class="ic s">emoji_events</span></div>
+            <div style="flex:1">
+              <div class="fb-name">Dr. Rina Susanti <span style="background:#FEF3C7;color:#92400E;padding:1px 7px;border-radius:var(--rf);font-size:10px;font-weight:600;margin-left:4px">Top Dokter</span></div>
+              <div class="fb-text">Patient satisfaction score tertinggi bulan ini — 5 bintang dari 48 pasien ANC. Sering disebut dalam feedback positif Nuans.</div>
+              <div class="fb-time">Diberi oleh Direktur · 2 hari lalu · Reward: Rp 500rb</div>
+            </div>
+          </div>
+          <div class="fbrow">
+            <div class="fbav" style="background:#E8F5E9;color:#2E7D32"><span class="ic s">star</span></div>
+            <div style="flex:1">
+              <div class="fb-name">Bidan Sri Wahyuni</div>
+              <div class="fb-text">Tangani 12 persalinan minggu ini tanpa insiden. Pasien konsisten merekomendasikan beliau di komunitas Nuans.</div>
+              <div class="fb-time">Diberi oleh Kepala Bidan · 4 hari lalu · Reward: Rp 300rb</div>
+            </div>
+          </div>
+          <hr style="border:none;border-top:1px solid var(--line);margin:12px 0"/>
+          <div class="card-hd" style="margin-bottom:10px"><div class="card-hd-l"><div class="card-title">Flow Kudos</div></div></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--blue-s);border:1px solid var(--blue-m);font-size:12px;font-weight:600;color:var(--blue)">Formulasi Rewards</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">Give Rewards</div>
+            <span class="ic s" style="color:var(--t3)">arrow_forward</span>
+            <div style="padding:7px 12px;border-radius:var(--r8);background:var(--srf2);border:1px solid var(--line);font-size:12px;color:var(--t2)">Testimonial</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Loop ke Internal Voice</div></div></div>
+            <div class="ab g"><div class="ab-hd"><span class="ic s">record_voice_over</span>Spotlight Bulan Ini</div><div class="ab-body">Dr. Rina Susanti dan Bidan Sri Wahyuni akan ditampilkan di newsletter internal minggu depan. Konfirmasi?</div></div>
+            <div style="display:flex;gap:7px;margin-top:9px">
+              <button class="btn success" style="flex:1;justify-content:center"><span class="ic s">check</span>Konfirmasi</button>
+              <button class="btn ghost">Edit</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-hd-l"><div class="card-title">Loop ke Komunitas</div></div></div>
+            <div class="ab loy"><div class="ab-hd"><span class="ic s">groups</span>Share ke Komunitas Pasien</div><div class="ab-body">Pasien sering sebut Dr. Rina di komunitas Nuans. Mau tampilkan sebagai featured dokter di feed komunitas?</div></div>
+            <div style="display:flex;gap:7px;margin-top:9px">
+              <button class="btn loy" style="flex:1;justify-content:center"><span class="ic s">share</span>Share ke Komunitas</button>
+              <button class="btn ghost">Nanti</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+const META = {
+  radar:      ['Radar Layanan','Monitor semua sinyal pasien secara real-time dari berbagai channel'],
+  crisis:     ['Crisis Management','Tangani, eskalasi, dan selesaikan keluhan kritis dengan cepat'],
+  survey:     ['Survey Kepuasan','Rancang, distribusikan, dan analisis survey kepuasan pasien'],
+  studio:     ['Studio Program','Rancang dan optimalkan program loyalitas bersama AI'],
+  delivery:   ['Program Delivery','Empat jalur pengiriman program loyalitas berdasarkan tujuan intervensi'],
+  community:  ['Komunitas','Kelola komunitas pasien — sumber insight organik dan channel akuisisi'],
+  market:     ['Intelijen Pasar','Data pasar, kompetitor, dan peluang strategis dari Sinteta'],
+  promotion:  ['Promosi & Edukasi Massal','Produksi dan distribusi konten ke audiens yang tepat'],
+  performance:['Service Performance','Monitor performa layanan dari data SIMRS ke insight Sinteta'],
+  finance:    ['Finance & Revenue','Pantau kesehatan finansial dan dampak program loyalitas'],
+  sop:        ['SOP & Update','Kelola protokol klinis, distribusikan update, pantau kepatuhan'],
+  voice:      ['Internal Voice','Komunikasi, briefing, dan alignment tim medis & manajemen'],
+  kudos:      ['Kudos','Apresiasi staf, beri reward, bangun budaya keunggulan layanan'],
+};
+
+function go(btn, id) {
+  document.querySelectorAll('.ni').forEach(function(n){ n.classList.remove('on'); });
+  if (btn) btn.classList.add('on');
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('on'); });
+  var sc = document.getElementById('s-' + id);
+  if (sc) sc.classList.add('on');
+  if (META[id]) {
+    document.getElementById('tb-h').textContent = META[id][0];
+    document.getElementById('tb-s').textContent = META[id][1];
+  }
+}
+
+function ts(el) {
+  el.closest('.tabs').querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  el.classList.add('on');
+}
+
+function studioTab(btn, id) {
+  document.querySelectorAll('#s-studio .tabs .tab').forEach(function(t){ t.classList.remove('on'); });
+  btn.classList.add('on');
+  document.querySelectorAll('.studio-panel').forEach(function(p){ p.classList.remove('sp-on'); });
+  var panel = document.getElementById(id);
+  if (panel) panel.classList.add('sp-on');
+}
+
+function communityTab(btn, id) {
+  document.querySelectorAll('#s-community .tabs .tab').forEach(function(t){ t.classList.remove('on'); });
+  btn.classList.add('on');
+  document.querySelectorAll('.comm-panel').forEach(function(p){ p.classList.remove('cp-on'); });
+  var panel = document.getElementById(id);
+  if (panel) panel.classList.add('cp-on');
+}
+
+function toggleLane(id) {
+  var lane = document.getElementById(id);
+  if (lane) lane.classList.toggle('open');
+}
+</script>
+</body>
+</html>

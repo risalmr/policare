@@ -1,0 +1,21 @@
+{
+  "name": "policare-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5174",
+    "dev:ops": "vite business-ops-suite --port 5175",
+    "build": "vite build",
+    "build:ops": "vite build business-ops-suite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.4"
+  }
+}

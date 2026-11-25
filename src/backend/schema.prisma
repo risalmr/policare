@@ -1,0 +1,416 @@
+// =============================================================================
+// PRISMA SCHEMA — POLICARE HEALTHCARE CRM & PATIENT VOICE SYSTEM
+// Piloting: RSUD Daya Kota Makassar
+// Version: 3.0.0 (Unified Enterprise RBAC, Dual Voice 360, KMKP & Education Studio)
+// =============================================================================
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -----------------------------------------------------------------------------
+// 1. HOSPITAL & RBAC / USER MANAGEMENT
+// -----------------------------------------------------------------------------
+
+model Hospital {
+  id              String               @id @default(uuid())
+  code            String               @unique // 'RSUD-DAYA-MKS'
+  name            String               @default("RSUD Daya Kota Makassar")
+  city            String               @default("Makassar")
+  address         String?
+  phone           String?
+  simrsConnected  Boolean              @default(true)
+  departments     Department[]
+  roles           Role[]
+  staffUsers      StaffUser[]
+  patients        SimrsPatient[]
+  feedbacks       Feedback[]
+  crisisIncidents CrisisIncident[]
+  communities     PatientCommunity[]
+  surveys         SurveyInstrument[]
+  campaigns       PromotionCampaign[]
+  loyaltyRules    LoyaltyRule[]
+  outreachLogs    OutreachDispatch[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+}
+
+model Department {
+  id         String            @id @default(uuid())
+  hospitalId String
+  hospital   Hospital          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  code       String            // 'POLI-OBGYN', 'POLI-ANAK', 'FARMASI', 'HUMAS', 'KMKP'
+  name       String
+  isClinical Boolean           @default(true)
+  staffUsers StaffUser[]
+  encounters SimrsEncounter[]
+  feedbacks  Feedback[]
+  crises     CrisisIncident[]
+}
+
+enum PermissionLevel {
+  ADMIN       // Full Control: Create, Read, Update, Delete, Escalate
+  EDITOR      // Operator: Read, Input, Reply, Draft
+  VIEWER      // Read-Only: View Reports & Analytics
+  NO_ACCESS   // Module Locked / Hidden
+}
+
+model Role {
+  id          String           @id @default(uuid())
+  hospitalId  String
+  hospital    Hospital         @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  code        String           @unique // 'SUPER_ADMIN', 'HUMAS', 'PROMKES', 'KMKP', 'DOKTER_DPJP'
+  name        String           // 'Direktur Utama', 'Yanmas / Humas', 'Promkes & Pemasaran', 'Komite Mutu (KMKP)'
+  badgeColor  String           @default("#4f30db")
+  description String?
+  isSystem    Boolean          @default(false)
+  permissions RolePermission[]
+  staffUsers  StaffUser[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model RolePermission {
+  id          String          @id @default(uuid())
+  roleId      String
+  role        Role            @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  moduleKey   String          // 'radar', 'crisis', 'survey', 'market', 'simrsFollowUp', 'studio', 'community', 'promotion', 'aiCompanion', 'roles'
+  accessLevel PermissionLevel @default(NO_ACCESS)
+
+  @@unique([roleId, moduleKey])
+}
+
+model StaffUser {
+  id                 String             @id @default(uuid())
+  hospitalId         String
+  hospital           Hospital           @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  departmentId       String?
+  department         Department?        @relation(fields: [departmentId], references: [id])
+  roleId             String
+  role               Role               @relation(fields: [roleId], references: [id])
+  nip                String?            @unique
+  fullName           String
+  email              String             @unique
+  phone              String?
+  specialization     String?
+  avatarInitials     String?
+  avatarColor        String?            @default("#4f30db")
+  isActive           Boolean            @default(true)
+  lastActiveAt       DateTime?
+  dpjpEncounters     SimrsEncounter[]
+  dpjpCommunities    PatientCommunity[] @relation("DoctorDpjp")
+  nurseCommunities   PatientCommunity[] @relation("NurseFacilitator")
+  validatedCampaigns PromotionCampaign[]
+  recordedFeedbacks  Feedback[]         @relation("StaffRecorder")
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// 2. SIMRS PATIENT MASTER & INTEGRATION CACHE
+// -----------------------------------------------------------------------------
+
+model SimrsPatient {
+  id                   String             @id @default(uuid())
+  hospitalId           String
+  hospital             Hospital           @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  rmNumber             String             @unique // 'RM-882103'
+  nik                  String?            @unique
+  fullName             String
+  phone                String
+  gender               String             // 'L' | 'P'
+  birthDate            DateTime?
+  address              String?
+  loyaltyTier          String             @default("Gold") // 'Silver', 'Gold', 'Platinum'
+  accumulatedPoints    Int                @default(0)
+  encounters           SimrsEncounter[]
+  feedbacks            Feedback[]
+  communityMemberships CommunityMember[]
+  surveyResponses      SurveyResponse[]
+  outreachDispatches   OutreachDispatch[]
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+}
+
+model SimrsEncounter {
+  id              String        @id @default(uuid())
+  patientId       String
+  patient         SimrsPatient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  departmentId    String?
+  department      Department?   @relation(fields: [departmentId], references: [id])
+  dpjpStaffId     String?
+  dpjpStaff       StaffUser?    @relation(fields: [dpjpStaffId], references: [id])
+  encounterDate   DateTime
+  encounterType   String        // 'RAWAT_JALAN', 'RAWAT_INAP', 'IGD'
+  diagnosisCode   String?       // ICD-10 e.g. 'O26.8'
+  diagnosisText   String
+  followupStatus  String        @default("Belum Dihubungi")
+  followupMessage String?
+  followupSentAt  DateTime?
+  createdAt       DateTime      @default(now())
+}
+
+// -----------------------------------------------------------------------------
+// 3. PILAR 1: DUAL-VOICE RADAR (VOC PASIEN & VOE TIM MEDIS / STAF)
+// -----------------------------------------------------------------------------
+
+enum VoiceDomain {
+  PATIENT_VOICE_VOC   // Pure patient feedback (WhatsApp, Call, Saran, App, Google)
+  STAFF_VOICE_VOE     // Internal staff & doctor clinical bottlenecks
+}
+
+model Feedback {
+  id                     String           @id @default(uuid())
+  hospitalId             String
+  hospital               Hospital         @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  voiceDomain            VoiceDomain      @default(PATIENT_VOICE_VOC)
+  
+  // Patient VOC Context
+  patientId              String?
+  patient                SimrsPatient?    @relation(fields: [patientId], references: [id])
+  reporterName           String
+  reporterRole           String           @default("Pasien / Keluarga")
+  isAnonymous            Boolean          @default(false)
+  channel                String           // 'Telepon CS', 'Tatap Muka', 'WhatsApp CS', 'Google Reviews', 'Kotak Saran'
+  rating                 Int?             // 1-5 Stars
+  sentiment              String           // 'Kritis', 'Medium', 'Positif'
+  
+  // Staff VOE Context
+  staffRecorderId        String?
+  staffRecorder          StaffUser?       @relation("StaffRecorder", fields: [staffRecorderId], references: [id])
+  staffRole              String?          // 'Dokter Spesialis', 'Bidan', 'Perawat', 'Apoteker', 'Admisi', 'Lab'
+  staffCategory          String?          // 'Ketersediaan Alkes/Obat', 'Beban Kerja & Shift', 'SIMRS & IT', 'Fasilitas Pasien'
+  staffShift             String?          // 'Pagi (07:00 - 14:00)', 'Siang (14:00 - 21:00)', 'Malam (21:00 - 07:00)'
+  staffUrgency           String?          // 'Tinggi', 'Sedang', 'Rendah'
+  upvotesCount           Int              @default(0) // Dukungan sejawat
+  
+  // Dual-Lens 360° Matrix Linkage
+  isCrossCorrelated360   Boolean          @default(false)
+  correlatedFeedbackId   String?
+  
+  departmentId           String?
+  department             Department?      @relation(fields: [departmentId], references: [id])
+  feedbackText           String
+  aiSummary              String?
+  aiDraftReply           String?
+  status                 String           @default("Open") // 'Open', 'Dalam Proses', 'Selesai', 'Eskalasi'
+  managementResponse     String?
+  recordedBy             String?
+  crises                 CrisisIncident[]
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// 4. CRISIS MANAGEMENT & BAGIAN MUTU (KMKP) SIMRS VERIFICATION
+// -----------------------------------------------------------------------------
+
+enum MutuVerificationStatus {
+  BELUM_DIKIRIM
+  PEMBERITAHUAN_TERKIRIM_KE_MUTU
+  PASIEN_TERDAFTAR_SIMRS
+  BUKAN_PASIEN_RS
+}
+
+model CrisisIncident {
+  id                     String                 @id @default(uuid())
+  hospitalId             String
+  hospital               Hospital               @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  feedbackId             String?
+  feedback               Feedback?              @relation(fields: [feedbackId], references: [id])
+  title                  String
+  sourceOrigin           String                 // 'Radar Layanan', 'Hasil Riset SKM'
+  severity               String                 // 'Kritis', 'Tinggi', 'Sedang'
+  riskImpact             String
+  departmentId           String?
+  department             Department?            @relation(fields: [departmentId], references: [id])
+  body                   String
+  
+  // Quality Team (KMKP) Dispatch & SIMRS Verification
+  suspectedRmNumber      String?
+  mutuNotificationStatus MutuVerificationStatus @default(BELUM_DIKIRIM)
+  mutuDispatchedAt       DateTime?
+  mutuDispatchChannel    String?                // 'WHATSAPP', 'EMAIL', 'MEMO_INTERNAL'
+  simrsVerifiedAt        DateTime?
+  simrsVerifierName      String?
+  simrsVerificationNotes String?
+
+  aiRiskAnalysis         String?
+  aiActionPlan           String?
+  aiPressRelease         String?
+  aiCompensation         String?
+  handlingDecision       String                 @default("Menunggu Keputusan") // 'Saran AI Diterima', 'Dimodifikasi Humas', 'Saran AI Ditolak'
+  status                 String                 @default("Open") // 'Open', 'Dalam Proses', 'Eskalasi Pimpinan', 'Selesai'
+  escalatedTo            String?
+  escalatedAt            DateTime?
+  resolvedAt             DateTime?
+  auditTrails            CrisisAuditTrail[]
+  createdAt              DateTime               @default(now())
+}
+
+model CrisisAuditTrail {
+  id               String         @id @default(uuid())
+  crisisId         String
+  crisis           CrisisIncident @relation(fields: [crisisId], references: [id], onDelete: Cascade)
+  actorName        String
+  eventDescription String
+  createdAt        DateTime       @default(now())
+}
+
+// -----------------------------------------------------------------------------
+// 5. PATIENT COMMUNITIES (DUAL FACILITATOR: DPJP & BIDAN/PERAWAT)
+// -----------------------------------------------------------------------------
+
+model PatientCommunity {
+  id                   String            @id @default(uuid())
+  hospitalId           String
+  hospital             Hospital          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  code                 String            @unique // 'ct-bumil', 'ct-alumni', 'ct-kronis'
+  name                 String
+  category             String
+  accessMode           String            // 'Rujukan Dokter', 'Publik RS', 'Privat'
+  
+  doctorDpjpId         String?
+  doctorDpjp           StaffUser?        @relation("DoctorDpjp", fields: [doctorDpjpId], references: [id])
+  doctorDpjpName       String
+  doctorDpjpRole       String
+  
+  nurseFacilitatorId   String?
+  nurseFacilitator     StaffUser?        @relation("NurseFacilitator", fields: [nurseFacilitatorId], references: [id])
+  nurseFacilitatorName String
+  nurseFacilitatorRole String
+  
+  targetQuota          Int               @default(250)
+  whatsappGroupUrl     String?
+  description          String?
+  engagementRate       Int               @default(100)
+  status               String            @default("Aktif")
+  members              CommunityMember[]
+  createdAt            DateTime          @default(now())
+}
+
+model CommunityMember {
+  id                 String           @id @default(uuid())
+  communityId        String
+  community          PatientCommunity @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  patientId          String?
+  patient            SimrsPatient?    @relation(fields: [patientId], references: [id])
+  patientName        String
+  rmNumber           String
+  phone              String
+  medicalCondition   String?
+  riskLevel          String           @default("Rendah")
+  assignedByStaff    String
+  doctorNotes        String?
+  whatsappInviteSent Boolean          @default(true)
+  enrolledAt         DateTime         @default(now())
+}
+
+// -----------------------------------------------------------------------------
+// 6. RESEARCH & SURVEY STUDIO (SKM KEMENKES / PERMENPAN-RB)
+// -----------------------------------------------------------------------------
+
+model SurveyInstrument {
+  id               String           @id @default(uuid())
+  hospitalId       String
+  hospital         Hospital         @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  title            String
+  surveyType       String           // 'SKM_KEMENKES_9_UNSUR', 'AD_HOC_SURVEY'
+  targetSampleSize Int              @default(150)
+  currentResponses Int              @default(0)
+  ikmScore         Float?
+  serviceGrade     String?          // 'A (Sangat Baik)', 'B (Baik)'
+  status           String           @default("Aktif")
+  responses        SurveyResponse[]
+  createdAt        DateTime         @default(now())
+}
+
+model SurveyResponse {
+  id            String           @id @default(uuid())
+  surveyId      String
+  survey        SurveyInstrument @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  patientId     String?
+  patient       SimrsPatient?    @relation(fields: [patientId], references: [id])
+  questionCode  String           // 'U1' to 'U9'
+  scoreValue    Int              // 1 to 4
+  feedbackNotes String?
+  createdAt     DateTime         @default(now())
+}
+
+// -----------------------------------------------------------------------------
+// 7. PROMOTION & MEDICAL EDUCATION STUDIO (SEPARATED SECTIONS)
+// -----------------------------------------------------------------------------
+
+enum PromotionSectionType {
+  EDUCATION_MEDICAL       // Clinical SOPs, Doctor Articles, Health Literacy (Non-commercial)
+  COMMERCIAL_PROMOTION    // Service Packages, Loyalty Rewards, Direct Booking ROI
+}
+
+model PromotionCampaign {
+  id                  String               @id @default(uuid())
+  hospitalId          String
+  hospital            Hospital             @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  sectionType         PromotionSectionType @default(EDUCATION_MEDICAL)
+  title               String
+  channel             String               // 'Instagram Carousel', 'TikTok Video Script', 'WhatsApp Official Info', 'Artikel Medis Web'
+  insightSource       String?              // 'SOP & Update Klinis', 'Intelijen Pasar', 'Voice of Customer'
+  contentDraft        String
+  scriptVideo         String?
+  visualPrompt        String?
+  targetAudience      String?
+  recommendedCTA      String?
+  
+  doctorValidatorId   String?
+  doctorValidator     StaffUser?           @relation(fields: [doctorValidatorId], references: [id])
+  doctorVerified      Boolean              @default(false)
+  marketingVerified   Boolean              @default(false)
+  publishedStatus     String               @default("Draft") // 'Draft', 'Scheduled', 'Live'
+  
+  // Analytics: Literacy vs ROI
+  readThroughRate     Float?               // e.g. 84.5%
+  comprehensionScore  Float?               // e.g. 96.0%
+  directBookingsCount Int                  @default(0)
+  estimatedRevenue    Float?               // e.g. Rp 14.500.000
+  reachCount          String               @default("0")
+  conversionsCount    String               @default("0")
+  
+  scheduledAt         DateTime?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// 8. LOYALTY RULES & AUTOPILOT OUTREACH DISPATCH
+// -----------------------------------------------------------------------------
+
+model LoyaltyRule {
+  id                 String   @id @default(uuid())
+  hospitalId         String
+  hospital           Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  ruleKey            String   @unique // 'ancChallenge', 'referralBoost', 'wellBabyStreak'
+  title              String
+  rewardPoints       Int
+  targetParticipants Int
+  status             String   @default("Aktif")
+  updatedAt          DateTime @updatedAt
+}
+
+model OutreachDispatch {
+  id                String        @id @default(uuid())
+  hospitalId        String
+  hospital          Hospital      @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  patientId         String?
+  patient           SimrsPatient? @relation(fields: [patientId], references: [id])
+  recipientName     String
+  recipientPhone    String
+  messageContent    String
+  authorizedByNurse String
+  dispatchType      String        @default("AUTOPILOT_BULK")
+  status            String        @default("Sukses (AI Direct)")
+  sentAt            DateTime      @default(now())
+}
